@@ -20,5 +20,5 @@ The best Digital Signature Management System
 - void addPublicKey(UserName, PublicKey)
 - String getPublicKey(UserName)
 - void addSymmetricKey(UserName, FileHash, SymmetricKey)
-- String getSymmetricKey(UserName, FileHash, SymmetricKey)
+- String getSymmetricKey(UserName, FileHash)
 - String[] getAllUsers()
