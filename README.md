@@ -22,3 +22,9 @@ The best Digital Signature Management System
 - void addSymmetricKey(UserName, FileHash, SymmetricKey)
 - String getSymmetricKey(UserName, FileHash)
 - String[] getAllUsers()
+
+## General mechanics
+public and private keys are stored in a file with ".lyan" extension, on client side.
+
+
+
