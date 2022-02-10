@@ -1,0 +1,1 @@
+File inutile per poter caricare la cartella "res" su Git
