@@ -26,11 +26,18 @@ The best Digital Signature Management System
 ## General mechanics
 public and private keys are stored in a file with ".lyan" extension, on client side.
 
-.lyan file structure:
+.sig.lyan file structure:
 
 - fileName: String, the name of the file
 - fileContent: String, bytes of the file, could be encrypted and encoded in Base64
 - isEncrypted: boolean, whether the fileContent is encrypted
 - signature: String, bytes of encrypted hash encoded in Base64
 
+.key_public.lyan
+
+- key: String, bytes of the public key encoded in Base64
+
+.key_private.lyan
+
+- key: String, bytes of the private key encoded in Base64
 
