@@ -1,0 +1,11 @@
+{
+  "name": "lyan_server",
+  "version": "1.0.0",
+  "description": "The REST server which provides an interface to the stored signatures",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vaccari Luca",
+  "license": "ISC"
+}
