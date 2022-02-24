@@ -17,6 +17,7 @@ javafx {
 
 dependencies {
     implementation 'com.konghq:unirest-java:3.13.3'
+    implementation 'org.json:json:20090211'
 }
 
 sourceSets {
