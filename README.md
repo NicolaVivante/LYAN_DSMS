@@ -10,7 +10,7 @@ The best Digital Signature Management System
 
 ### Table SymmetricKeys
 - UserName varchar(50) PK FK
-- FileHash varchar(512) PK
+- FileHash varchar(512) PK (hash of the encrypted file)
 - SymmetricKey varchar(512)
 
 ## DB interaction methods
@@ -26,5 +26,11 @@ The best Digital Signature Management System
 ## General mechanics
 public and private keys are stored in a file with ".lyan" extension, on client side.
 
+.lyan file structure:
+
+fileName: String, the name of the file
+fileContent: String, bytes of the file, could be encrypted and encoded in Base64
+isEncrypted: boolean, whether the fileContent is encrypted
+signature: String, bytes of encrypted hash encoded in Base64
 
 
