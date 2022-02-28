@@ -27,8 +27,14 @@ public class SignedFile {
 
     public static SignedFile readSignedFile(File signedFile) throws Exception {
         // from json
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        return null;
+        byte [] signedFileBytes = Files.readAllBytes(signedFile.toPath());
+        String compressedJsonObject = Converter.byteArrayToString(signedFileBytes);
+        String jsonObject = Compressor.decompress(compressedJsonObject);
+
+        return objectMapper.readValue(jsonObject, SignedFile.class);
+
     }
 
     public static SignedFile createSignedFile(File fileToSign, PrivateKey privateKey) throws Exception {
