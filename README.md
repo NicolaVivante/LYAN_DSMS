@@ -17,7 +17,8 @@ The best Digital Signature Management System
 - String[] getAllUsers()
 
 ## General system
-public and private keys, as well as user name are stored in a file with ".lyan" extension, on client side.
+
+a signed file is saved with extension ".sig.lyan"
 
 .sig.lyan file structure:
 
@@ -28,6 +29,8 @@ public and private keys, as well as user name are stored in a file with ".lyan" 
 - list of key-value pairs containing:
   - usernameDigest: String, bytes of digest of user name
   - symmetricKey: String, bytes of the symmetric key (to decrypt the fileContent) encrypted with user public key  
+
+public and private keys, as well as user name are stored in a file with ".keys.lyan" extension, on client side.
 
 .keys.lyan file structure
 
