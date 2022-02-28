@@ -19,6 +19,9 @@ import java.util.Map;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SignedFile {
 
+    @JsonIgnore
+    private final static String EXTENSION = ".sig.lyan";
+
     private final String fileName;
     private String fileContent;
     private boolean isEncrypted;
