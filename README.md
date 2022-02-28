@@ -5,39 +5,35 @@ The best Digital Signature Management System
 
 ### Table Users:
 - UserName varchar(50) PK
-- PasswordHash varchar(512)
+- PasswordDigest varchar(512)
 - PublicKey varchar(512)
-
-### Table SymmetricKeys
-- UserName varchar(50) PK FK
-- FileHash varchar(512) PK (hash of the encrypted file)
-- SymmetricKey varchar(512)
 
 ## DB interaction methods
 - bool userExists(UserName)
-- void register(UserName, PasswordHash)
-- bool verifyUser(UserName, PasswordHash)
+- void register(UserName, PasswordDigest)
+- bool verifyUser(UserName, PasswordDigest)
 - void addPublicKey(UserName, PublicKey)
 - String getPublicKey(UserName)
-- void addSymmetricKey(UserName, FileHash, SymmetricKey)
-- String getSymmetricKey(UserName, FileHash)
 - String[] getAllUsers()
 
-## General mechanics
-public and private keys are stored in a file with ".lyan" extension, on client side.
+## General system
+public and private keys, as well as user name are stored in a file with ".lyan" extension, on client side.
 
 .sig.lyan file structure:
 
 - fileName: String, the name of the file
-- fileContent: String, bytes of the file, could be encrypted and encoded in Base64
+- fileContent: String, bytes of the file, could be encrypted
 - isEncrypted: boolean, whether the fileContent is encrypted
-- signature: String, bytes of encrypted hash encoded in Base64
+- signature: String, bytes of encrypted digest (of plaintext fileContent)
+- list of key-value pairs containing:
+  - usernameDigest: String, bytes of digest of user name
+  - symmetricKey: String, bytes of the symmetric key (to decrypt the fileContent) encrypted with user public key  
 
-.key_public.lyan
+.keys.lyan file structure
 
-- key: String, bytes of the public key encoded in Base64
+- passwordDigest: String, bytes of user password digest
+- userName: String, user name (encrypted with user password as key)
+- publicKey: String, bytes of user public key (encrypted with user password as key)
+- privateKey: String, bytes of private key (encrypted with user password as key)
 
-.key_private.lyan
-
-- key: String, bytes of the private key encoded in Base64
 
