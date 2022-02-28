@@ -125,6 +125,8 @@ public class SignedFile {
                 String symmetricKey = RSA.decrypt(symmetricKeyEncrypted, currentUser.getPrivateKey());
                 fileContentToVerify = AES.decrypt(fileContent, symmetricKey);
             }
+            else
+                throw new Exception("Il file non può essere decifrato, perchè destinato ad altri!");
         }
 
         String fileContentToVerifyHash = SHA_256.getDigest(fileContentToVerify);
