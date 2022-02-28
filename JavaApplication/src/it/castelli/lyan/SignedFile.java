@@ -1,6 +1,7 @@
 package it.castelli.lyan;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.castelli.encryption.AES;
 import it.castelli.encryption.RSA;
@@ -19,6 +20,9 @@ import java.util.Map;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SignedFile {
 
+    @JsonIgnore
+    private final static String EXTENSION = ".sig.lyan";
+
     private final String fileName;
     private String fileContent;
     private boolean isEncrypted;
@@ -27,6 +31,8 @@ public class SignedFile {
 
     public static SignedFile readSignedFile(File signedFile) throws Exception {
         // from json
+        ObjectMapper objectMapper = new ObjectMapper();
+
 
         return null;
     }
@@ -41,7 +47,7 @@ public class SignedFile {
         String jsonObject = objectMapper.writeValueAsString(this);
         String compressedJsonObject = Compressor.compress(jsonObject);
 
-        String newFileName = path + this.fileName + ".sig.lyan";
+        String newFileName = path + this.fileName + EXTENSION;
         File newFile = new File(newFileName);
         if (newFile.createNewFile()) {
             FileWriter myWriter = new FileWriter(newFileName);
