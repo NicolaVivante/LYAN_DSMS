@@ -14,6 +14,7 @@ import java.io.FileWriter;
 import java.nio.file.Files;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.Signature;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +114,21 @@ public class SignedFile {
      * @param signer The user who is supposed to have signed the file
      * @return whether the signer is the one who signed the file or not
      */
-    public boolean verifySignature(PublicUser currentUser, PublicUser signer) throws Exception {
-        return false;
+    public boolean verifySignature(User currentUser, PublicUser signer) throws Exception {
+        String fileContentToVerify = fileContent;
+
+        if(isEncrypted)
+        {
+            if(recipientsKeys.containsValue(SHA_256.getDigest(currentUser.getUserName())))
+            {
+                String symmetricKeyEncrypted = recipientsKeys.get(SHA_256.getDigest(currentUser.getUserName()));
+                String symmetricKey = RSA.decrypt(symmetricKeyEncrypted, currentUser.getPrivateKey());
+                fileContentToVerify = AES.decrypt(fileContent, symmetricKey);
+            }
+        }
+
+        String fileContentToVerifyHash = SHA_256.getDigest(fileContentToVerify);
+        String fileContentReceived = RSA.decrypt(signature, signer.getPublicKey());
+        return fileContentToVerifyHash.equals(fileContentReceived);
     }
 }
