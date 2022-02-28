@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -41,10 +42,20 @@ public class SignedFile {
 
     }
 
+    /**
+     * @param fileToSign The file to sign
+     * @param privateKey The private key of the signer key pair
+     * @return a new SignedFile
+     * @throws Exception An exception
+     */
     public static SignedFile createSignedFile(File fileToSign, PrivateKey privateKey) throws Exception {
         return new SignedFile(fileToSign, privateKey);
     }
 
+    /**
+     * @param path The path to save the file at (ending with \)
+     * @throws Exception An exception
+     */
     public void toFile(String path) throws Exception {
         // to json and to file in file system
         ObjectMapper objectMapper = new ObjectMapper();
@@ -62,9 +73,14 @@ public class SignedFile {
         }
     }
 
-    private SignedFile(File file, PrivateKey privateKey) throws Exception {
-        this.fileName = file.getName(); // gets file name
-        byte[] fileContentBytes = Files.readAllBytes(file.toPath()); // read file content
+    /**
+     * @param fileToSign The file to sign
+     * @param privateKey The private key of the signer key pair
+     * @throws Exception An exception
+     */
+    private SignedFile(File fileToSign, PrivateKey privateKey) throws Exception {
+        this.fileName = fileToSign.getName(); // gets file name
+        byte[] fileContentBytes = Files.readAllBytes(fileToSign.toPath()); // read file content
         fileContent = Converter.byteArrayToString(fileContentBytes);
         String fileDigest = SHA_256.getDigest(fileContent); // create signature
         signature = RSA.encrypt(fileDigest, privateKey);
@@ -72,9 +88,9 @@ public class SignedFile {
     }
 
     /**
-     * @param recipients a map containing pairs of userName and user public key
+     * @param recipients The list of recipients
      */
-    public void encrypt(Map<String, PublicKey> recipients) {
+    public void encrypt(List<PublicUser> recipients) {
         isEncrypted = true;
 
         // encrypt file content and digest
@@ -85,12 +101,19 @@ public class SignedFile {
         // add a key for each user given
         recipientsKeys = new HashMap<>();
         String userDigest, encryptedEncryptionKey;
-        PublicKey publicKey;
-        for (Map.Entry<String, PublicKey> recipient: recipients.entrySet()) {
-            userDigest = SHA_256.getDigest(recipient.getKey());
-            publicKey = recipient.getValue();
-            encryptedEncryptionKey = RSA.encrypt(encryptionKey, publicKey);
+        for (PublicUser recipient : recipients) {
+            userDigest = SHA_256.getDigest(recipient.getUserName());
+            encryptedEncryptionKey = RSA.encrypt(encryptionKey, recipient.getPublicKey());
             recipientsKeys.put(userDigest, encryptedEncryptionKey);
         }
+    }
+
+    /**
+     * @param currentUser The current user
+     * @param signer The user who is supposed to have signed the file
+     * @return whether the signer is the one who signed the file or not
+     */
+    public boolean verifySignature(PublicUser currentUser, PublicUser signer) throws Exception {
+        return false;
     }
 }
