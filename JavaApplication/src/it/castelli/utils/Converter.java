@@ -1,4 +1,4 @@
-package it.castelli.encryption;
+package it.castelli.utils;
 
 import java.nio.charset.StandardCharsets;
 

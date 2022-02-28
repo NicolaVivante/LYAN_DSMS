@@ -18,9 +18,6 @@ public class LYANFileManager {
         try {
             if (publicKeyFile.createNewFile()) {
                 FileWriter myWriter = new FileWriter(fileName);
-
-
-
                 myWriter.write("content");
                 myWriter.close();
             } else {

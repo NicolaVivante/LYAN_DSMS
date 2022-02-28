@@ -1,5 +1,7 @@
 package it.castelli.encryption;
 
+import it.castelli.utils.Converter;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Security;

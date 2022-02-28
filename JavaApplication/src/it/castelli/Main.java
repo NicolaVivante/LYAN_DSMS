@@ -1,10 +1,12 @@
 package it.castelli;
 
 import it.castelli.encryption.AES;
-import it.castelli.encryption.Compressor;
+import it.castelli.lyan.SignedFile;
+import it.castelli.utils.Compressor;
 import it.castelli.encryption.RSA;
 import it.castelli.encryption.SHA_256;
 
+import java.io.File;
 import java.security.KeyPair;
 
 public class Main {
@@ -44,12 +46,21 @@ public class Main {
     public static void main(String[] args) {
         String message = "a very secret message, do not let others than you read this";
         String key = "secret key";
+        KeyPair keyPair = RSA.generateKeyPair();
+        File newFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt");
+        try {
+            SignedFile signedFile = SignedFile.createSignedFile(newFile, keyPair.getPrivate());
+            signedFile.toFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
         System.out.println("Original message: " + message);
 
 //        testDigest(message);
 //        testAES(message, key);
-        testRSA(message);
+//        testRSA(message);
 //        testCompression(message);
     }
 }

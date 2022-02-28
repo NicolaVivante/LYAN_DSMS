@@ -1,4 +1,4 @@
-package it.castelli.encryption;
+package it.castelli.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.zip.DeflaterOutputStream;

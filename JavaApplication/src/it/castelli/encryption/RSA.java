@@ -1,5 +1,7 @@
 package it.castelli.encryption;
 
+import it.castelli.utils.Converter;
+
 import javax.crypto.Cipher;
 import java.security.Key;
 import java.security.KeyPair;
@@ -11,7 +13,7 @@ public class RSA {
     public static KeyPair generateKeyPair(){
         try {
             KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-            generator.initialize(4096);
+            generator.initialize(2048);
             return generator.generateKeyPair();
         }
         catch (NoSuchAlgorithmException e) {

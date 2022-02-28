@@ -1,5 +1,7 @@
 package it.castelli.encryption;
 
+import it.castelli.utils.Converter;
+
 import java.security.MessageDigest;
 
 public class SHA_256 {
