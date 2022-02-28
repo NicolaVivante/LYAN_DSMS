@@ -34,9 +34,9 @@ a signed file is saved with extension ".sig.lyan"
 
 public and private keys, as well as user name are stored in a file with ".keys.lyan" extension, on client side.
 
-.keys.lyan file structure
+.user.lyan file structure
 
-- passwordDigest: String, bytes of user password digest
+- password: String, user password
 - userName: String, user name (encrypted with user password as key)
 - publicKey: String, bytes of user public key (encrypted with user password as key)
 - privateKey: String, bytes of private key (encrypted with user password as key)
