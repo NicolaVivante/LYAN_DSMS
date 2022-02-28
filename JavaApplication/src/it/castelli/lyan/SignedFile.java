@@ -1,6 +1,7 @@
 package it.castelli.lyan;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.castelli.encryption.AES;
 import it.castelli.encryption.RSA;
