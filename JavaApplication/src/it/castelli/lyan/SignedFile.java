@@ -10,7 +10,7 @@ import it.castelli.utils.Compressor;
 import it.castelli.utils.Converter;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -25,22 +25,28 @@ public class SignedFile {
     @JsonIgnore
     private final static String EXTENSION = ".sig.lyan";
 
-    private final String fileName;
+    private String fileName;
     private String fileContent;
     private boolean isEncrypted;
     private String signature;
     private Map<String, String> recipientsKeys;
 
-    public static SignedFile readSignedFile(File signedFile) throws Exception {
-        // from json
-        ObjectMapper objectMapper = new ObjectMapper();
+    /**
+     * Constructor for ObjectMapper
+     */
+    private SignedFile() {}
 
+    /**
+     * @param signedFile The signed file to parse
+     * @return The parsed signed file
+     * @throws Exception An exception
+     */
+    public static SignedFile readSignedFile(File signedFile) throws Exception {
         byte [] signedFileBytes = Files.readAllBytes(signedFile.toPath());
         String compressedJsonObject = Converter.byteArrayToString(signedFileBytes);
         String jsonObject = Compressor.decompress(compressedJsonObject);
 
-        return objectMapper.readValue(jsonObject, SignedFile.class);
-
+        return new ObjectMapper().readValue(jsonObject, SignedFile.class);
     }
 
     /**
@@ -62,13 +68,14 @@ public class SignedFile {
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonObject = objectMapper.writeValueAsString(this);
         String compressedJsonObject = Compressor.compress(jsonObject);
+        byte[] compressedJsonObjectBytes = Converter.stringToByteArray(compressedJsonObject);
 
-        String newFileName = path + this.fileName + ".sig.lyan";
+        String newFileName = path + this.fileName + EXTENSION;
         File newFile = new File(newFileName);
         if (newFile.createNewFile()) {
-            FileWriter myWriter = new FileWriter(newFileName);
-            myWriter.write(compressedJsonObject);
-            myWriter.close();
+            FileOutputStream outputStream = new FileOutputStream(newFileName);
+            outputStream.write(compressedJsonObjectBytes);
+            outputStream.close();
         } else {
             throw new Exception("File already exists");
         }
@@ -132,5 +139,10 @@ public class SignedFile {
         String fileContentToVerifyHash = SHA_256.getDigest(fileContentToVerify);
         String fileContentReceived = RSA.decrypt(signature, signer.getPublicKey());
         return fileContentToVerifyHash.equals(fileContentReceived);
+    }
+
+    //TODO : eliminate (temp method)
+    public String getFileContent() {
+        return fileContent;
     }
 }

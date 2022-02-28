@@ -1,7 +1,10 @@
 package it.castelli.lyan;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import java.security.PublicKey;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class PublicUser {
 
     private final String userName;

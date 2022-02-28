@@ -2,6 +2,7 @@ package it.castelli;
 
 import it.castelli.encryption.AES;
 import it.castelli.lyan.SignedFile;
+import it.castelli.lyan.User;
 import it.castelli.utils.Compressor;
 import it.castelli.encryption.RSA;
 import it.castelli.encryption.SHA_256;
@@ -43,21 +44,38 @@ public class Main {
         System.out.println(compressedText);
     }
 
+    public static void testSignedFile(KeyPair keyPair) throws Exception {
+        File newFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt");
+        SignedFile signedFile = SignedFile.createSignedFile(newFile, keyPair.getPrivate());
+        signedFile.toFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\");
+        newFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt.sig.lyan");
+        SignedFile anotherSignedFile = SignedFile.readSignedFile(newFile);
+        System.out.println("Content: " + anotherSignedFile.getFileContent());
+    }
+
+    public static void testUser() throws Exception {
+        User myUser = User.createUser("Babao", "defiga");
+        myUser.toFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\");
+        File userFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\Babao.user.lyan");
+        User anotherUser = User.readUser(userFile, "awkudhwak");
+        System.out.println("Content: " + anotherUser.getUserName());
+    }
+
     public static void main(String[] args) {
         String message = "a very secret message, do not let others than you read this";
         String key = "secret key";
         KeyPair keyPair = RSA.generateKeyPair();
-        File newFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt");
+
         try {
-            SignedFile signedFile = SignedFile.createSignedFile(newFile, keyPair.getPrivate());
-            signedFile.toFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\");
+//            testSignedFile(keyPair);
+            testUser();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
+//            e.printStackTrace();
         }
 
-        System.out.println("Original message: " + message);
-
+//        System.out.println("Original message: " + message);
 //        testDigest(message);
 //        testAES(message, key);
 //        testRSA(message);

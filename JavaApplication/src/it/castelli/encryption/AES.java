@@ -29,7 +29,7 @@ public class AES {
         }
         catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new byte[0];
         }
     }
 
@@ -42,12 +42,11 @@ public class AES {
 
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
-
             return cipher.doFinal(cipherTextBytes);
         }
         catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new byte[0];
         }
     }
 
