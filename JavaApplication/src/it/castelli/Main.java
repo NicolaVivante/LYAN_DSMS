@@ -48,7 +48,7 @@ public class Main {
     public static void testSignedFile(KeyPair keyPair) throws Exception {
         File newFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt");
         SignedFile signedFile = SignedFile.createSignedFile(newFile, keyPair.getPrivate());
-        signedFile.toFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\");
+        signedFile.createFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\");
         newFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt.sig.lyan");
         SignedFile anotherSignedFile = SignedFile.readSignedFile(newFile);
         System.out.println("Content: " + anotherSignedFile.getFileContent(null));
@@ -56,7 +56,7 @@ public class Main {
 
     public static void testUser() throws Exception {
         User myUser = User.createUser("Babao", "defiga");
-        myUser.toFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\");
+        myUser.createFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\");
         File userFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\Babao.user.lyan");
         User anotherUser = User.readUser(userFile, "awkudhwak");
         System.out.println("Content: " + anotherUser.getUserName());
@@ -76,8 +76,10 @@ public class Main {
                 User paolo = User.createUser("Paolo", "sugoma");
                 File fileToSign = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt");
                 SignedFile signedFile = SignedFile.createSignedFile(fileToSign, filippo.getPrivateKey());
-                signedFile.encrypt(Arrays.asList(filippo.getPublicUser()));
+                signedFile.encrypt(Arrays.asList(filippo.getPublicUser(), paolo.getPublicUser()));
                 System.out.println("Sign verified: " + signedFile.verifySignature(paolo, filippo.getPublicUser()));
+                signedFile.createFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\");
+                signedFile.saveOriginalFile(paolo, "C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\");
 
             }
         }

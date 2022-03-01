@@ -62,7 +62,7 @@ public class SignedFile {
      * @param path The path to save the file at (ending with \)
      * @throws Exception An exception
      */
-    public void toFile(String path) throws Exception {
+    public void createFile(String path) throws Exception {
         // to json and to file in file system
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonObject = objectMapper.writeValueAsString(this);
@@ -158,10 +158,10 @@ public class SignedFile {
         return signature;
     }
 
-    public void saveFile(User currentUser) throws Exception {
+    public void saveOriginalFile(User currentUser, String path) throws Exception {
         String fileContent = getFileContent(currentUser);
         byte[] fileContentBytes = Converter.stringToByteArray(fileContent);
-        String fileName = this.fileName.substring(0, this.fileName.length() - EXTENSION.length());
+        String fileName = path + this.fileName;
         File newFile = new File(fileName);
         if (newFile.createNewFile()) {
             FileOutputStream outputStream = new FileOutputStream(fileName);
