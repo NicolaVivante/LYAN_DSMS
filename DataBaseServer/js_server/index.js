@@ -1,52 +1,65 @@
-let app = require("express")();
-const port = 5555;
+const express = require("express");
+const app = express();
+app.use(express.json());
+const PORT = 5555;
 
 const JSONDataManager = {
-
+  getUsers: () => {
+    // TODO
+  },
+  getUserByName: (userName) => {
+    // TODO
+  },
+  addUser: (user) => {
+    // TODO
+  },
+  setKey: (key, userName) => {
+    // TODO
+  },
 };
 
 const DBDataManager = {
-
+  getUsers: () => {
+    // TODO
+  },
+  getUserByName: (userName) => {
+    // TODO
+  },
+  addUser: (user) => {
+    // TODO
+  },
+  setKey: (key, userName) => {
+    // TODO
+  },
 };
 
 const DataManager = JSONDataManager;
 
-// CALLS:
-/*
-/users (add, remove, get)
-/verify/user
-/user/key (add, get)
-/symmetrickeys (add, remove, get)
-*/
-
 app.get("/users", (req, res) => {
-    // TODO
+  // TODO: filters
+  res.json(DataManager.getUsers());
 });
 
-app.get("/verify/:username", (req, res) => {
-    // TODO
+app.get("/verify", (req, res) => {
+  res.json({
+    verified:
+      DataManager.getUserByName(req.body.username).passwordDigest ==
+      req.body.passwordDigest,
+  });
 });
 
 app.get("/:user/key", (req, res) => {
-    // TODO
-});
-
-app.get("/symmetrickeys", (req, res) => {
-    // TODO
+  // TODO
 });
 
 app.post("/users", (req, res) => {
-    // TODO
+  // TODO
 });
 
 app.post("/:user/key", (req, res) => {
-    // TODO
+  // TODO
 });
 
-app.post("/symmetrickeys", (req, res) => {
-    // TODO
-});
-
-app.listen(port, () => {
-    console.log("LYAN server listening on port " + port);
+app.listen(PORT, () => {
+  console.log("LYAN server listening on port " + PORT);
 });
