@@ -1,7 +1,4 @@
 [
-  {
-    "userName": "luca",
-    "passwordDigest": null,
-    "publicKey": null
-  }
+  { "userName": "luca", "passwordDigest": null, "publicKey": null },
+  { "userName": "giorgio", "passwordDigest": null, "publicKey": null }
 ]

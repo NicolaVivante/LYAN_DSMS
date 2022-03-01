@@ -25,8 +25,7 @@ async function writeFile(path, content) {
 const filePath = "./users.json";
 const JSONDataManager = {
   getUsers: async function () {
-    const data = await readfile(filePath);
-    return JSON.parse(data);
+    return JSON.parse(await readfile(filePath));
   },
   getUserByName: async (userName) => {
     return await JSON.parse(await readfile(filePath)).filter(
@@ -34,7 +33,9 @@ const JSONDataManager = {
     )[0];
   },
   addUser: async (user) => {
-    // TODO
+    const users = JSON.parse(await readfile(filePath));
+    users.push(user);
+    writeFile(filePath, JSON.stringify(users));
   },
   setKey: async (key, userName) => {
     // TODO
