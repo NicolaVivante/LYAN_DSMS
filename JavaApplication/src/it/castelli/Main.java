@@ -9,6 +9,7 @@ import it.castelli.encryption.SHA_256;
 
 import java.io.File;
 import java.security.KeyPair;
+import java.util.Arrays;
 
 public class Main {
 
@@ -50,7 +51,7 @@ public class Main {
         signedFile.toFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\");
         newFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt.sig.lyan");
         SignedFile anotherSignedFile = SignedFile.readSignedFile(newFile);
-        System.out.println("Content: " + anotherSignedFile.getFileContent());
+        System.out.println("Content: " + anotherSignedFile.getFileContent(null));
     }
 
     public static void testUser() throws Exception {
@@ -68,11 +69,21 @@ public class Main {
 
         try {
 //            testSignedFile(keyPair);
-            testUser();
+//            testUser();
+            {
+//                testAES(message, key);
+                User filippo = User.createUser("Filippo", "raspberry");
+                User paolo = User.createUser("Paolo", "sugoma");
+                File fileToSign = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt");
+                SignedFile signedFile = SignedFile.createSignedFile(fileToSign, filippo.getPrivateKey());
+                signedFile.encrypt(Arrays.asList(filippo.getPublicUser()));
+                System.out.println("Sign verified: " + signedFile.verifySignature(paolo, filippo.getPublicUser()));
+
+            }
         }
         catch (Exception e) {
-            System.err.println(e.getMessage());
-//            e.printStackTrace();
+//            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
 
 //        System.out.println("Original message: " + message);

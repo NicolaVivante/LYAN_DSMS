@@ -5,6 +5,7 @@ import it.castelli.utils.Converter;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Security;
+import java.util.Arrays;
 
 public class AES {
 
@@ -12,6 +13,7 @@ public class AES {
 
     private static void init() {
         Security.setProperty("crypto.policy", "unlimited");
+        System.out.println("Authorization granted to AES");
         initDone = true;
     }
 
@@ -20,7 +22,8 @@ public class AES {
 
         try {
             byte[] keyDigest = SHA_256.getDigest(keyBites);
-            SecretKeySpec secretKey = new SecretKeySpec(keyDigest, "AES");
+            byte[] keyDigestHalf = Arrays.copyOfRange(keyDigest, 0, keyDigest.length/2);
+            SecretKeySpec secretKey = new SecretKeySpec(keyDigestHalf, "AES");
 
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
@@ -38,7 +41,8 @@ public class AES {
 
         try {
             byte[] keyDigest = SHA_256.getDigest(keyBites);
-            SecretKeySpec secretKey = new SecretKeySpec(keyDigest, "AES");
+            byte[] keyDigestHalf = Arrays.copyOfRange(keyDigest, 0, keyDigest.length/2);
+            SecretKeySpec secretKey = new SecretKeySpec(keyDigestHalf, "AES");
 
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, secretKey);

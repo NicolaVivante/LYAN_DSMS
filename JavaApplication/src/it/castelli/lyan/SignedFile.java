@@ -8,6 +8,7 @@ import it.castelli.encryption.RSA;
 import it.castelli.encryption.SHA_256;
 import it.castelli.utils.Compressor;
 import it.castelli.utils.Converter;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
@@ -31,7 +32,8 @@ public class SignedFile {
     /**
      * Constructor for ObjectMapper
      */
-    private SignedFile() {}
+    private SignedFile() {
+    }
 
     /**
      * @param signedFile The signed file to parse
@@ -39,7 +41,7 @@ public class SignedFile {
      * @throws Exception An exception
      */
     public static SignedFile readSignedFile(File signedFile) throws Exception {
-        byte [] signedFileBytes = Files.readAllBytes(signedFile.toPath());
+        byte[] signedFileBytes = Files.readAllBytes(signedFile.toPath());
         String compressedJsonObject = Converter.byteArrayToString(signedFileBytes);
         String jsonObject = Compressor.decompress(compressedJsonObject);
 
@@ -106,7 +108,7 @@ public class SignedFile {
         // add a key for each user given
         recipientsKeys = new HashMap<>();
         String userDigest, encryptedEncryptionKey;
-        for (PublicUser recipient : recipients) {
+        for (PublicUser recipient: recipients) {
             userDigest = SHA_256.getDigest(recipient.getUserName());
             encryptedEncryptionKey = RSA.encrypt(encryptionKey, recipient.getPublicKey());
             recipientsKeys.put(userDigest, encryptedEncryptionKey);
@@ -115,31 +117,58 @@ public class SignedFile {
 
     /**
      * @param currentUser The current user
-     * @param signer The user who is supposed to have signed the file
+     * @param signer      The user who is supposed to have signed the file
      * @return whether the signer is the one who signed the file or not
      */
     public boolean verifySignature(User currentUser, PublicUser signer) throws Exception {
-        String fileContentToVerify = fileContent;
-
-        if(isEncrypted)
-        {
-            if(recipientsKeys.containsValue(SHA_256.getDigest(currentUser.getUserName())))
-            {
-                String symmetricKeyEncrypted = recipientsKeys.get(SHA_256.getDigest(currentUser.getUserName()));
-                String symmetricKey = RSA.decrypt(symmetricKeyEncrypted, currentUser.getPrivateKey());
-                fileContentToVerify = AES.decrypt(fileContent, symmetricKey);
-            }
-            else
-                throw new Exception("Il file non può essere decifrato, perchè destinato ad altri!");
-        }
-
-        String fileContentToVerifyHash = SHA_256.getDigest(fileContentToVerify);
-        String fileContentReceived = RSA.decrypt(signature, signer.getPublicKey());
-        return fileContentToVerifyHash.equals(fileContentReceived);
+        String fileContentToVerify = getFileContent(currentUser);
+        String fileContentToVerifyDigest = SHA_256.getDigest(fileContentToVerify);
+        String receivedSignature = getSignature(currentUser);
+        String fileContentReceived = RSA.decrypt(receivedSignature, signer.getPublicKey());
+        return fileContentToVerifyDigest.equals(fileContentReceived);
     }
 
-    //TODO : eliminate (temp method)
-    public String getFileContent() {
+    public String getFileContent(User currentUser) throws Exception {
+        String fileContent = this.fileContent;
+        if (isEncrypted) {
+            String userNameDigest = SHA_256.getDigest(currentUser.getUserName());
+            if (recipientsKeys.containsKey(userNameDigest)) {
+                String symmetricKeyEncrypted = recipientsKeys.get(SHA_256.getDigest(currentUser.getUserName()));
+                String symmetricKey = RSA.decrypt(symmetricKeyEncrypted, currentUser.getPrivateKey());
+                fileContent = AES.decrypt(this.fileContent, symmetricKey);
+            } else {
+                throw new Exception("Il file non può essere decifrato, perché destinato ad altri!");
+            }
+        }
         return fileContent;
+    }
+
+    public String getSignature(User currentUser) throws Exception {
+        String signature = this.signature;
+        if (isEncrypted) {
+            String userNameDigest = SHA_256.getDigest(currentUser.getUserName());
+            if (recipientsKeys.containsKey(userNameDigest)) {
+                String symmetricKeyEncrypted = recipientsKeys.get(SHA_256.getDigest(currentUser.getUserName()));
+                String symmetricKey = RSA.decrypt(symmetricKeyEncrypted, currentUser.getPrivateKey());
+                signature = AES.decrypt(this.signature, symmetricKey);
+            } else {
+                throw new Exception("Il file non può essere decifrato, perché destinato ad altri!");
+            }
+        }
+        return signature;
+    }
+
+    public void saveFile(User currentUser) throws Exception {
+        String fileContent = getFileContent(currentUser);
+        byte[] fileContentBytes = Converter.stringToByteArray(fileContent);
+        String fileName = this.fileName.substring(0, this.fileName.length() - EXTENSION.length());
+        File newFile = new File(fileName);
+        if (newFile.createNewFile()) {
+            FileOutputStream outputStream = new FileOutputStream(fileName);
+            outputStream.write(fileContentBytes);
+            outputStream.close();
+        } else {
+            throw new Exception("File already exists");
+        }
     }
 }
