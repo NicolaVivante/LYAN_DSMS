@@ -48,16 +48,15 @@ app.get("/verify", (req, res) => {
   });
 });
 
-app.get("/:user/key", (req, res) => {
-  // TODO
-});
-
 app.post("/users", (req, res) => {
-  // TODO
+  DataManager.addUser(req.body);
+  // TODO: send outcome
 });
 
-app.post("/:user/key", (req, res) => {
+app.post("/key", (req, res) => {
   // TODO
+  DataManager.setKey(req.body.key, req.body.userName);
+  // TODO: send outcome
 });
 
 app.listen(PORT, () => {
