@@ -16,6 +16,7 @@ async function readfile(path) {
 async function writeFile(path, content) {
   try {
     await fs.writeFile(path, content);
+    return true;
   } catch (error) {
     console.log(error);
     return false;
@@ -78,12 +79,13 @@ app.get("/verify", async (req, res) => {
 });
 
 app.post("/users", async (req, res) => {
+  // TODO: check JSON consistency
   await DataManager.addUser(req.body);
   // TODO: send outcome
 });
 
 app.post("/key", async (req, res) => {
-  // TODO
+  // TODO: check JSON consistency
   await DataManager.setKey(req.body.key, req.body.userName);
   // TODO: send outcome
 });
