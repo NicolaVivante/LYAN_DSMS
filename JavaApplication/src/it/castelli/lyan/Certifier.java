@@ -2,12 +2,13 @@ package it.castelli.lyan;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.castelli.utils.Compressor;
 import it.castelli.utils.Converter;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
 import java.security.KeyPair;
 
 public class Certifier {
@@ -16,18 +17,28 @@ public class Certifier {
     private static boolean isInitialized = false;
 
     public static void initialize(KeyPair keys) {
-        isInitialized = true;
-        keyPair = keys;
+        if (!isInitialized) {
+            isInitialized = true;
+            keyPair = keys;
+        }
     }
 
-    public static Certificate getCertificate(PublicUser publicUser) throws Exception {
+    public static Certificate createCertificate(PublicUser publicUser) throws Exception {
         if (!isInitialized) throw new Exception("Certifier must be initialized");
         String publicUserString = publicUser.toString();
         String signature = SignatureManager.getSignature(publicUserString, keyPair.getPrivate());
         return new Certificate(publicUser, signature);
     }
 
-    public static boolean verifyCertificate(Certificate certificate) throws Exception {
+    public static Certificate fromFile(File file) throws Exception {
+        if (!isInitialized) throw new Exception("Certifier must be initialized");
+        byte[] fileContentBytes = Files.readAllBytes(file.toPath());
+        String compressedContent = Converter.byteArrayToString(fileContentBytes);
+        String content = Compressor.decompress(compressedContent);
+        return new ObjectMapper().readValue(content, Certificate.class);
+    }
+
+    public static boolean isValid(Certificate certificate) throws Exception {
         if (!isInitialized) throw new Exception("Certifier must be initialized");
         String content = certificate.getPublicUser().toString();
         String signature = certificate.getCertifierSignature();
@@ -60,8 +71,9 @@ public class Certifier {
 
         public void save(String path) throws Exception {
             String certificateString = new ObjectMapper().writeValueAsString(this);
-            byte[] fileContentBytes = Converter.stringToByteArray(certificateString);
-            String fileName = path + this.publicUser.getUserName();
+            String compressedString = Compressor.compress(certificateString);
+            byte[] fileContentBytes = Converter.stringToByteArray(compressedString);
+            String fileName = path + this.publicUser.getUserName() + EXTENSION;
             File newFile = new File(fileName);
             if (newFile.createNewFile()) {
                 FileOutputStream outputStream = new FileOutputStream(fileName);

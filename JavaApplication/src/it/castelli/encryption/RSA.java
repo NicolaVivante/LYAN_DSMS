@@ -24,42 +24,32 @@ public class RSA {
         }
     }
 
-    private static byte[] encrypt(byte[] plainTextBytes, Key key) {
-        try {
+    private static byte[] encrypt(byte[] plainTextBytes, Key key)  throws Exception {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE, key);
 
             return cipher.doFinal(plainTextBytes);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
-    private static byte[] decrypt(byte[] cipherTextBytes, Key key) {
-        try {
+    private static byte[] decrypt(byte[] cipherTextBytes, Key key) throws Exception {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, key);
             return cipher.doFinal(cipherTextBytes);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
-    public static String encrypt(String plainText, Key key) {
+    public static String encrypt(String plainText, Key key) throws Exception {
         byte[] plainTextBytes = Converter.stringToByteArray(plainText);
         byte[] cipherTextBytes = encrypt(plainTextBytes, key);
         return Converter.byteArrayToString(cipherTextBytes);
     }
 
-    public static String decrypt(String cipherText, Key key) {
+    public static String decrypt(String cipherText, Key key)  throws Exception {
         byte[] cipherTextBytes = Converter.stringToByteArray(cipherText);
         byte[] plainTextBytes = decrypt(cipherTextBytes, key);
         return Converter.byteArrayToString(plainTextBytes);
     }
 
-    public static PublicKey publicKeyFromString(String publicKeyString) {
+    public static PublicKey publicKeyFromString(String publicKeyString){
         try {
             byte[] publicKeyBytes = Converter.stringToByteArray(publicKeyString);
             KeyFactory kf = KeyFactory.getInstance(ALGORITHM);
