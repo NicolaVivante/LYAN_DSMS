@@ -1,7 +1,9 @@
 package it.castelli;
 
 import it.castelli.encryption.AES;
+import it.castelli.lyan.Certifier;
 import it.castelli.lyan.SignedFile;
+import it.castelli.lyan.SourceFile;
 import it.castelli.lyan.User;
 import it.castelli.utils.Compressor;
 import it.castelli.encryption.RSA;
@@ -45,14 +47,14 @@ public class Main {
         System.out.println(compressedText);
     }
 
-    public static void testSignedFile(KeyPair keyPair) throws Exception {
-        File newFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt");
-        SignedFile signedFile = SignedFile.createSignedFile(newFile, keyPair.getPrivate());
-        signedFile.createFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\");
-        newFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt.sig.lyan");
-        SignedFile anotherSignedFile = SignedFile.readSignedFile(newFile);
-        System.out.println("Content: " + anotherSignedFile.getFileContent(null));
-    }
+//    public static void testSignedFile(KeyPair keyPair) throws Exception {
+//        File newFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt");
+//        SignedFile signedFile = SignedFile.createSignedFile(newFile, keyPair.getPrivate());
+//        signedFile.save("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\");
+//        newFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt.sig.lyan");
+//        SignedFile anotherSignedFile = SignedFile.readSignedFile(newFile);
+//        System.out.println("Content: " + anotherSignedFile.getFileContent(null));
+//    }
 
     public static void testUser() throws Exception {
         User myUser = User.createUser("Babao", "defiga");
@@ -74,12 +76,19 @@ public class Main {
 //                testAES(message, key);
                 User filippo = User.createUser("Filippo", "raspberry");
                 User paolo = User.createUser("Paolo", "sugoma");
-                File fileToSign = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt");
-                SignedFile signedFile = SignedFile.createSignedFile(fileToSign, filippo.getPrivateKey());
-                signedFile.encrypt(Arrays.asList(filippo.getPublicUser(), paolo.getPublicUser()));
-                System.out.println("Sign verified: " + signedFile.verifySignature(paolo, filippo.getPublicUser()));
-                signedFile.createFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\");
-                signedFile.saveOriginalFile(paolo, "C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\");
+                Certifier.initialize(RSA.generateKeyPair());
+                SourceFile sourceFile = new SourceFile(
+                        new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt"),
+                        Arrays.asList(filippo.getPublicUser(), paolo.getPublicUser()));
+                Certifier.Certificate certificate = Certifier.getCertificate(filippo.getPublicUser());
+                SignedFile signedFile = new SignedFile(sourceFile, paolo, certificate);
+                System.out.println("File signed by: " + signedFile.verifySignature());
+                signedFile.save("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\");
+                signedFile = SignedFile.fromFile(
+                        new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\amogus.txt.sig.lyan"),
+                        paolo);
+                System.out.println("File signed by: " + signedFile.verifySignature());
+                signedFile.saveSourceFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\");
 
             }
         }

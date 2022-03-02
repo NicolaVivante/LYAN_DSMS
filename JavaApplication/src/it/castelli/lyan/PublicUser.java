@@ -40,4 +40,13 @@ public class PublicUser {
             return null;
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PublicUser) {
+            return this.userName.equals(((PublicUser) obj).userName) &&
+                    this.publicKeyString.equals(((PublicUser) obj).publicKeyString);
+        }
+        return false;
+    }
 }

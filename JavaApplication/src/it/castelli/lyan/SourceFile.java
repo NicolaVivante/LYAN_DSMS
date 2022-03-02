@@ -1,6 +1,7 @@
 package it.castelli.lyan;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.castelli.encryption.AES;
 import it.castelli.encryption.RSA;
 import it.castelli.encryption.SHA_256;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class SourceFile {
     private String fileName;
     private String fileContent;
-    private boolean isEncrypted = false;
+    private boolean isEncrypted;
     private Map<String, String> recipientsKeys;
 
     private SourceFile() {}
@@ -27,10 +28,17 @@ public class SourceFile {
             fileName = file.getName();
             byte[] fileContentBytes = Files.readAllBytes(file.toPath());
             fileContent = Converter.byteArrayToString(fileContentBytes);
+            isEncrypted = false;
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private SourceFile(String fileName, String fileContent) {
+        this.fileName = fileName;
+        this.fileContent = fileContent;
+        isEncrypted = false;
     }
 
     public SourceFile(File file, List<PublicUser> recipients) {
@@ -57,7 +65,7 @@ public class SourceFile {
         }
     }
 
-    private void decrypt(User user) throws Exception {
+    private SourceFile decrypt(User user) throws Exception {
         String userNameDigest = SHA_256.getDigest(user.getUserName());
         if (recipientsKeys.containsKey(userNameDigest)) {
             // get decryption key
@@ -65,28 +73,28 @@ public class SourceFile {
             String key = RSA.decrypt(encryptedKey, user.getPrivateKey());
 
             // decrypt file name and content
-            fileName = AES.decrypt(fileName, key);
-            fileContent = AES.decrypt(fileContent, key);
+            String fileName = AES.decrypt(this.fileName, key);
+            String fileContent = AES.decrypt(this.fileContent, key);
+            return new SourceFile(fileName, fileContent);
 
-            isEncrypted = false;
         } else {
             throw new Exception("You are not allowed to read this file");
         }
     }
 
-    public void getAccess(User user) throws Exception {
+    public SourceFile getAccess(User user) throws Exception {
         if (isEncrypted) {
-            decrypt(user);
+            return decrypt(user);
+        } else {
+            return this;
         }
     }
 
-    public String getFileName() throws Exception {
-        if (isEncrypted) throw new Exception("File is encrypted, you have to decrypt it first");
+    public String getFileName() {
         return fileName;
     }
 
-    public String getFileContent() throws Exception {
-        if (isEncrypted) throw new Exception("File is encrypted, you have to decrypt it first");
+    public String getFileContent() {
         return fileContent;
     }
 }

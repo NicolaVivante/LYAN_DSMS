@@ -3,19 +3,13 @@ package it.castelli.lyan;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.castelli.encryption.AES;
-import it.castelli.encryption.RSA;
-import it.castelli.encryption.SHA_256;
 import it.castelli.utils.Compressor;
 import it.castelli.utils.Converter;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
-import java.security.PrivateKey;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.security.PublicKey;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SignedFile {
@@ -24,53 +18,33 @@ public class SignedFile {
     private final static String EXTENSION = ".sig.lyan";
 
     private Certifier.Certificate certificate;
-    private String fileName;
-    private String fileContent;
-    private boolean isEncrypted;
+    private SourceFile sourceFile;
     private String signature;
-    private Map<String, String> recipientsKeys;
 
-    /**
-     * Constructor for ObjectMapper
-     */
-    private SignedFile() {
-    }
+    @JsonIgnore
+    private SourceFile sourceFileUnlocked;
 
-    /**
-     * @param signedFile The signed file to parse
-     * @return The parsed signed file
-     * @throws Exception An exception
-     */
-    public static SignedFile readSignedFile(File signedFile) throws Exception {
-        byte[] signedFileBytes = Files.readAllBytes(signedFile.toPath());
+    private SignedFile() {}
+
+    public static SignedFile fromFile(File file, User user) throws Exception {
+        byte[] signedFileBytes = Files.readAllBytes(file.toPath());
         String compressedJsonObject = Converter.byteArrayToString(signedFileBytes);
         String jsonObject = Compressor.decompress(compressedJsonObject);
 
-        return new ObjectMapper().readValue(jsonObject, SignedFile.class);
+        SignedFile signedFile = new ObjectMapper().readValue(jsonObject, SignedFile.class);
+        signedFile.sourceFileUnlocked = signedFile.sourceFile.getAccess(user);
+        return signedFile;
     }
 
-    /**
-     * @param fileToSign The file to sign
-     * @param privateKey The private key of the signer key pair
-     * @return a new SignedFile
-     * @throws Exception An exception
-     */
-    public static SignedFile createSignedFile(File fileToSign, PrivateKey privateKey) throws Exception {
-        return new SignedFile(fileToSign, privateKey);
-    }
+    public void save(String path) throws Exception {
 
-    /**
-     * @param path The path to save the file at (ending with \)
-     * @throws Exception An exception
-     */
-    public void createFile(String path) throws Exception {
         // to json and to file in file system
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonObject = objectMapper.writeValueAsString(this);
         String compressedJsonObject = Compressor.compress(jsonObject);
         byte[] compressedJsonObjectBytes = Converter.stringToByteArray(compressedJsonObject);
 
-        String newFileName = path + this.fileName + EXTENSION;
+        String newFileName = path + sourceFileUnlocked.getFileName() + EXTENSION;
         File newFile = new File(newFileName);
         if (newFile.createNewFile()) {
             FileOutputStream outputStream = new FileOutputStream(newFileName);
@@ -81,86 +55,31 @@ public class SignedFile {
         }
     }
 
-    /**
-     * @param fileToSign The file to sign
-     * @param privateKey The private key of the signer key pair
-     * @throws Exception An exception
-     */
-    private SignedFile(File fileToSign, PrivateKey privateKey) throws Exception {
-        this.fileName = fileToSign.getName(); // gets file name
-        byte[] fileContentBytes = Files.readAllBytes(fileToSign.toPath()); // read file content
-        fileContent = Converter.byteArrayToString(fileContentBytes);
-        String fileDigest = SHA_256.getDigest(fileContent); // create signature
-        signature = RSA.encrypt(fileDigest, privateKey);
-        isEncrypted = false; // not encrypted yet
+    public SignedFile(SourceFile sourceFile, User user, Certifier.Certificate certificate) throws Exception {
+        this.sourceFile = sourceFile;
+        this.sourceFileUnlocked = sourceFile.getAccess(user);
+        String fileContent = sourceFileUnlocked.getFileContent();
+        if (!Certifier.verifyCertificate(certificate)) throw new Exception("Invalid certificate!");
+        if (!certificate.getPublicUser().equals(user.getPublicUser())) throw new Exception("Certificate user and given user don't correspond!");
+        this.signature = SignatureManager.getSignature(fileContent, user.getPrivateKey());
+        this.certificate = certificate;
     }
 
-    /**
-     * @param recipients The list of recipients
-     */
-    public void encrypt(List<PublicUser> recipients) {
-        isEncrypted = true;
-
-        // encrypt file content and digest
-        String encryptionKey = SHA_256.getDigest(fileContent);
-        fileContent = AES.encrypt(fileContent, encryptionKey);
-        signature = AES.encrypt(signature, encryptionKey);
-
-        // add a key for each user given
-        recipientsKeys = new HashMap<>();
-        String userDigest, encryptedEncryptionKey;
-        for (PublicUser recipient: recipients) {
-            userDigest = SHA_256.getDigest(recipient.getUserName());
-            encryptedEncryptionKey = RSA.encrypt(encryptionKey, recipient.getPublicKey());
-            recipientsKeys.put(userDigest, encryptedEncryptionKey);
+    public String verifySignature() throws Exception {
+        String fileContent = sourceFileUnlocked.getFileContent();
+        if (!Certifier.verifyCertificate(certificate)) throw new Exception("Invalid certificate!");
+        PublicKey publicKey = certificate.getPublicUser().getPublicKey();
+        if (SignatureManager.verifySignature(fileContent, signature, publicKey)) {
+            return certificate.getPublicUser().getUserName();
+        } else {
+            throw new Exception("Invalid signature!");
         }
     }
 
-    /**
-     * @param currentUser The current user
-     * @param signer      The user who is supposed to have signed the file
-     * @return whether the signer is the one who signed the file or not
-     */
-    public boolean verifySignature(User currentUser, PublicUser signer) throws Exception {
-        String fileContent = getFileContent(currentUser);
-        String signature = getSignature(currentUser);
-        return SignatureManager.verifySignature(fileContent, signature, signer.getPublicKey());
-    }
-
-    public String getFileContent(User currentUser) throws Exception {
-        String fileContent = this.fileContent;
-        if (isEncrypted) {
-            String userNameDigest = SHA_256.getDigest(currentUser.getUserName());
-            if (recipientsKeys.containsKey(userNameDigest)) {
-                String symmetricKeyEncrypted = recipientsKeys.get(SHA_256.getDigest(currentUser.getUserName()));
-                String symmetricKey = RSA.decrypt(symmetricKeyEncrypted, currentUser.getPrivateKey());
-                fileContent = AES.decrypt(this.fileContent, symmetricKey);
-            } else {
-                throw new Exception("Il file non può essere decifrato, perché destinato ad altri!");
-            }
-        }
-        return fileContent;
-    }
-
-    public String getSignature(User currentUser) throws Exception {
-        String signature = this.signature;
-        if (isEncrypted) {
-            String userNameDigest = SHA_256.getDigest(currentUser.getUserName());
-            if (recipientsKeys.containsKey(userNameDigest)) {
-                String symmetricKeyEncrypted = recipientsKeys.get(SHA_256.getDigest(currentUser.getUserName()));
-                String symmetricKey = RSA.decrypt(symmetricKeyEncrypted, currentUser.getPrivateKey());
-                signature = AES.decrypt(this.signature, symmetricKey);
-            } else {
-                throw new Exception("Il file non può essere decifrato, perché destinato ad altri!");
-            }
-        }
-        return signature;
-    }
-
-    public void saveOriginalFile(User currentUser, String path) throws Exception {
-        String fileContent = getFileContent(currentUser);
+    public void saveSourceFile(String path) throws Exception {
+        String fileContent = sourceFileUnlocked.getFileContent();
         byte[] fileContentBytes = Converter.stringToByteArray(fileContent);
-        String fileName = path + this.fileName;
+        String fileName = path + sourceFileUnlocked.getFileName();
         File newFile = new File(fileName);
         if (newFile.createNewFile()) {
             FileOutputStream outputStream = new FileOutputStream(fileName);
