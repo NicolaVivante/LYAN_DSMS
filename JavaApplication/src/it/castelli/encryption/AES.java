@@ -22,8 +22,10 @@ public class AES {
 
         try {
             byte[] keyDigest = SHA_256.getDigest(keyBites);
-            byte[] keyDigestHalf = Arrays.copyOfRange(keyDigest, 0, keyDigest.length/2);
+            byte[] keyDigestHalf = Arrays.copyOfRange(keyDigest, 0, keyDigest.length / 2);
             SecretKeySpec secretKey = new SecretKeySpec(keyDigestHalf, "AES");
+
+//            SecretKeySpec secretKey = new SecretKeySpec(keyDigest, "AES");
 
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
@@ -41,8 +43,10 @@ public class AES {
 
         try {
             byte[] keyDigest = SHA_256.getDigest(keyBites);
-            byte[] keyDigestHalf = Arrays.copyOfRange(keyDigest, 0, keyDigest.length/2);
+            byte[] keyDigestHalf = Arrays.copyOfRange(keyDigest, 0, keyDigest.length / 2);
             SecretKeySpec secretKey = new SecretKeySpec(keyDigestHalf, "AES");
+
+//            SecretKeySpec secretKey = new SecretKeySpec(keyDigest, "AES");
 
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, secretKey);

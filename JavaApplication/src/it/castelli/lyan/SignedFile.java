@@ -23,6 +23,7 @@ public class SignedFile {
     @JsonIgnore
     private final static String EXTENSION = ".sig.lyan";
 
+    private Certifier.Certificate certificate;
     private String fileName;
     private String fileContent;
     private boolean isEncrypted;
@@ -121,11 +122,9 @@ public class SignedFile {
      * @return whether the signer is the one who signed the file or not
      */
     public boolean verifySignature(User currentUser, PublicUser signer) throws Exception {
-        String fileContentToVerify = getFileContent(currentUser);
-        String fileContentToVerifyDigest = SHA_256.getDigest(fileContentToVerify);
-        String receivedSignature = getSignature(currentUser);
-        String fileContentReceived = RSA.decrypt(receivedSignature, signer.getPublicKey());
-        return fileContentToVerifyDigest.equals(fileContentReceived);
+        String fileContent = getFileContent(currentUser);
+        String signature = getSignature(currentUser);
+        return SignatureManager.verifySignature(fileContent, signature, signer.getPublicKey());
     }
 
     public String getFileContent(User currentUser) throws Exception {
