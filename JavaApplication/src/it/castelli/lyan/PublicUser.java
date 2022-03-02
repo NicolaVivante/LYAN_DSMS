@@ -2,6 +2,8 @@ package it.castelli.lyan;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.castelli.encryption.RSA;
 
 import java.security.PublicKey;
@@ -28,4 +30,14 @@ public class PublicUser {
         return RSA.publicKeyFromString(publicKeyString);
     }
 
+    @JsonIgnore
+    public String toString() {
+        try {
+            return new ObjectMapper().writeValueAsString(this);
+        }
+        catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
