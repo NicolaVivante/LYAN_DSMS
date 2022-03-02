@@ -3,11 +3,13 @@ package it.castelli.lyan;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.castelli.encryption.RSA;
 import it.castelli.utils.Compressor;
 import it.castelli.utils.Converter;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.security.KeyPair;
 
@@ -20,6 +22,36 @@ public class Certifier {
         if (!isInitialized) {
             isInitialized = true;
             keyPair = keys;
+        }
+    }
+
+    public static void saveKeys(String path) throws Exception {
+        {
+            String publicKeyString = RSA.publicKeyToString(keyPair.getPublic());
+            byte[] fileContentBytes = Converter.stringToByteArray(publicKeyString);
+            String fileName = path + "LYAN.key.public.txt";
+            File newFile = new File(fileName);
+            if (newFile.createNewFile()) {
+                FileOutputStream outputStream = new FileOutputStream(fileName);
+                outputStream.write(fileContentBytes);
+                outputStream.close();
+            } else {
+                throw new Exception("File already exists");
+            }
+        }
+
+        {
+            String privateKeyString = RSA.privateKeyToString(keyPair.getPrivate());
+            byte[] fileContentBytes = Converter.stringToByteArray(privateKeyString);
+            String fileName = path + "LYAN.key.private.txt";
+            File newFile = new File(fileName);
+            if (newFile.createNewFile()) {
+                FileOutputStream outputStream = new FileOutputStream(fileName);
+                outputStream.write(fileContentBytes);
+                outputStream.close();
+            } else {
+                throw new Exception("File already exists");
+            }
         }
     }
 
