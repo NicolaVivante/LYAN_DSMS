@@ -10,11 +10,11 @@ const DataManager = require("./js/JSONDataManager");
 // API URLs
 app.get("/users", async (req, res) => {
   // TODO: filters
-  res.json(await DataManager.getUsers());
+  res.status(200).json(await DataManager.getUsers());
 });
 
 app.get("/verify", async (req, res) => {
-  res.json({
+  res.status(200).json({
     verified:
       (await DataManager.getUserByName(req.body.username).passwordDigest) ==
       req.body.passwordDigest,
@@ -23,14 +23,7 @@ app.get("/verify", async (req, res) => {
 
 app.post("/users", async (req, res) => {
   // TODO: check JSON consistency
-  await DataManager.addUser(req.body);
-  // TODO: send outcome
-});
-
-app.post("/key", async (req, res) => {
-  // TODO: check JSON consistency
-  await DataManager.setKey(req.body.key, req.body.userName);
-  // TODO: send outcome
+  res.status((await DataManager.addUser(req.body)) ? 200 : 500).end();
 });
 
 app.listen(PORT, async () => {
