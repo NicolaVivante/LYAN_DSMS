@@ -28,7 +28,7 @@ public class ServerMiddleware {
         String body = "{ \"userName\": \"" +
                 userName + "\", \"passwordHash\": \"" +
                 passwordHash + "\", \"publicKey\": " +
-                publicKey + "\", \"key\": \"sus\" }";
+                publicKey + "\" }";
         int status = Unirest.post(serverAddress + "users").body(body).asEmpty().getStatus();
         if (status >= 500) throw new Exception("Server error while adding the user");
     }
