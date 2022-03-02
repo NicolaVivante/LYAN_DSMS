@@ -25,7 +25,11 @@ public class ServerMiddleware {
      * @param publicKey    The public key of the certificate of the user
      */
     public static void registerUser(String userName, String passwordHash, String publicKey) throws Exception {
-        int status = Unirest.post(serverAddress + "users").asEmpty().getStatus();
+        String body = "{ \"userName\": \"" +
+                userName + "\", \"passwordHash\": \"" +
+                passwordHash + "\", \"publicKey\": " +
+                publicKey + "\", \"key\": \"sus\" }";
+        int status = Unirest.post(serverAddress + "users").body(body).asEmpty().getStatus();
         if (status >= 500) throw new Exception("Server error while adding the user");
     }
 
