@@ -1,4 +1,4 @@
 [
-  { "userName": "luca", "passwordHash": null, "publicKey": null, "key": "sus" },
+  { "userName": "luca", "passwordHash": null, "publicKey": null },
   { "userName": "giorgio", "passwordHash": null, "publicKey": null }
 ]

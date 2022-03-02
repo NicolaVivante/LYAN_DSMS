@@ -15,6 +15,7 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml']
 }
 dependencies {
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.12.5'
