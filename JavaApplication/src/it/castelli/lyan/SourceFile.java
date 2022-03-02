@@ -1,7 +1,6 @@
 package it.castelli.lyan;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.castelli.encryption.AES;
 import it.castelli.encryption.RSA;
 import it.castelli.encryption.SHA_256;
@@ -9,7 +8,6 @@ import it.castelli.utils.Converter;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +44,7 @@ public class SourceFile {
         isEncrypted = false;
     }
 
-    private void encrypt(List<PublicUser> recipients) {
+    private void encrypt(List<PublicUser> recipients) throws Exception {
         isEncrypted = true;
 
         // get encryption key

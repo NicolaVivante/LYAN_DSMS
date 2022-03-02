@@ -58,7 +58,7 @@ public class SignedFile {
         this.sourceFile = sourceFile;
         this.sourceFileUnlocked = sourceFile.decrypt(user);
         String fileContent = sourceFileUnlocked.getFileContent();
-        if (!Certifier.verifyCertificate(certificate)) throw new Exception("Invalid certificate!");
+        if (!Certifier.isValid(certificate)) throw new Exception("Invalid certificate!");
         if (!certificate.getPublicUser().equals(user.getPublicUser())) throw new Exception("Certificate user and given user don't correspond!");
         this.signature = SignatureManager.getSignature(fileContent, user.getPrivateKey());
         this.certificate = certificate;
@@ -66,7 +66,7 @@ public class SignedFile {
 
     public String verifySignature() throws Exception {
         String fileContent = sourceFileUnlocked.getFileContent();
-        if (!Certifier.verifyCertificate(certificate)) throw new Exception("Invalid certificate!");
+        if (!Certifier.isValid(certificate)) throw new Exception("Invalid certificate!");
         PublicKey publicKey = certificate.getPublicUser().getPublicKey();
         if (SignatureManager.verifySignature(fileContent, signature, publicKey)) {
             return certificate.getPublicUser().getUserName();

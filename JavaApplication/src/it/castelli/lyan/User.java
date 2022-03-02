@@ -5,13 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.castelli.encryption.AES;
 import it.castelli.encryption.RSA;
-import it.castelli.encryption.SHA_256;
 import it.castelli.utils.Compressor;
 import it.castelli.utils.Converter;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.nio.file.Files;
 import java.security.KeyPair;
 import java.security.PrivateKey;
@@ -28,7 +26,7 @@ public class User {
     private String publicKeyString;
     private String privateKeyString;
 
-    public static User readUser(File userFile, String password) throws Exception {
+    public static User fromFile(File userFile, String password) throws Exception {
         byte [] userBytes = Files.readAllBytes(userFile.toPath());
         String compressedJsonObject = Converter.byteArrayToString(userBytes);
         String encryptedJsonObject = Compressor.decompress(compressedJsonObject);
