@@ -1,52 +1,38 @@
-let app = require("express")();
-const port = 5555;
+require("dotenv").config();
+const express = require("express");
+const app = express();
+app.use(express.json());
+const PORT = process.env.PORT;
 
-const JSONDataManager = {
+// Change the value of this variable to JSONDataManager or DBDataManager to swich between the two systems
+const DataManager = require("./JSONDataManager.js");
 
-};
-
-const DBDataManager = {
-
-};
-
-const DataManager = JSONDataManager;
-
-// CALLS:
-/*
-/users (add, remove, get)
-/verify/user
-/user/key (add, get)
-/symmetrickeys (add, remove, get)
-*/
-
-app.get("/users", (req, res) => {
-    // TODO
+// API URLs
+app.get("/users", async (req, res) => {
+  // TODO: filters
+  res.json(await DataManager.getUsers());
 });
 
-app.get("/verify/:username", (req, res) => {
-    // TODO
+app.get("/verify", async (req, res) => {
+  res.json({
+    verified:
+      (await DataManager.getUserByName(req.body.username).passwordDigest) ==
+      req.body.passwordDigest,
+  });
 });
 
-app.get("/:user/key", (req, res) => {
-    // TODO
+app.post("/users", async (req, res) => {
+  // TODO: check JSON consistency
+  await DataManager.addUser(req.body);
+  // TODO: send outcome
 });
 
-app.get("/symmetrickeys", (req, res) => {
-    // TODO
+app.post("/key", async (req, res) => {
+  // TODO: check JSON consistency
+  await DataManager.setKey(req.body.key, req.body.userName);
+  // TODO: send outcome
 });
 
-app.post("/users", (req, res) => {
-    // TODO
-});
-
-app.post("/:user/key", (req, res) => {
-    // TODO
-});
-
-app.post("/symmetrickeys", (req, res) => {
-    // TODO
-});
-
-app.listen(port, () => {
-    console.log("LYAN server listening on port " + port);
+app.listen(PORT, async () => {
+  console.log("LYAN server listening on port " + PORT);
 });
