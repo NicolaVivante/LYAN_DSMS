@@ -29,8 +29,15 @@ db.selectUserByName = (userName) => {
 };
 db.insertUser = (user) => {
     return new Promise((resolve, reject) => {
-        dbConn.query("INSERT INTO users(username, password_hash, public_key) VALUES(?, ?, ?)", [user.userName, user.passwordDigest, user.key], (error, results) => {
-            return error ? reject(error) : resolve(results);
+        dbConn.query("INSERT INTO users(username, password_hash, public_key) VALUES(?, ?, ?)", [user.userName, user.passwordDigest, user.key], (error) => {
+            return error ? reject(error) : resolve();
+        });
+    });
+};
+db.setKey = (userName, key) => {
+    return new Promise((resolve, reject) => {
+        dbConn.query("UPDATE user SET public_key = ? WHERE username = ?", [key, userName], (error) => {
+            return error ? reject(error) : resolve();
         });
     });
 };

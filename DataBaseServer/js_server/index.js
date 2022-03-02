@@ -5,7 +5,7 @@ app.use(express.json());
 const PORT = process.env.PORT;
 
 // Change the value of this variable to JSONDataManager or DBDataManager to swich between the two systems
-const DataManager = require("./JSONDataManager.js");
+const DataManager = require("./js/JSONDataManager");
 
 // API URLs
 app.get("/users", async (req, res) => {

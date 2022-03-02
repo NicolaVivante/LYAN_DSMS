@@ -18,11 +18,12 @@ DBDataManager.getUserByName = (userName) => {
     }
 };
 DBDataManager.addUser = (user) => {
-    try { return db.insertUser(user); }
+    try { return await db.insertUser(user); }
     catch (error) { console.error(error); };
 };
 DBDataManager.setKey = (key, userName) => {
-    // TODO
+    try { return await db.setKey(key, userName); }
+    catch (error) { console.error(error); }
 };
 
 module.exports = DBDataManager;
