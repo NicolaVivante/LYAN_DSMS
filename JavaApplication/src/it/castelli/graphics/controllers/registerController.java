@@ -1,6 +1,9 @@
-package it.castelli.graphics;
+package it.castelli.graphics.controllers;
 
 
+import it.castelli.graphics.AlertUtil;
+import it.castelli.graphics.Login;
+import it.castelli.graphics.PrimaryStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

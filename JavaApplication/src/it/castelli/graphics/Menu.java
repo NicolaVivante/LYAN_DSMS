@@ -11,20 +11,19 @@ import java.net.URL;
 
 public class Menu extends Application {
 
-
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL url = new File("JavaApplication/src/it/castelli/graphics/login.fxml").toURI().toURL();
+        URL url = new File("JavaApplication/res/fxmls/menu.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
 
 
-        PrimaryStage.primaryStage.setScene(scene);
-        PrimaryStage.primaryStage.show();
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
     }
 }

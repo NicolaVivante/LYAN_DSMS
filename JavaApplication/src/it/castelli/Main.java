@@ -27,6 +27,20 @@ public class Main {
         System.out.println("AES decrypted message: " + plainText);
     }
 
+//    public static void testRSA(String message) {
+//        KeyPair keyPair = RSA.generateKeyPair();
+//
+//        String cipherText = RSA.encrypt(message, keyPair.getPrivate());
+//        System.out.println("RSA encrypted message (private): " + cipherText);
+//        String plainText = RSA.decrypt(cipherText, keyPair.getPublic());
+//        System.out.println("RSA decrypted message (public): " + plainText);
+//
+//        cipherText = RSA.encrypt(message, keyPair.getPublic());
+//        System.out.println("RSA encrypted message (public): " + cipherText);
+//        plainText = RSA.decrypt(cipherText, keyPair.getPrivate());
+//        System.out.println("RSA decrypted message (private): " + plainText);
+//    }
+
     public static void testCompression(String message) {
         String compressedText = Compressor.compress(message);
         System.out.println("Compressed message: ");
@@ -56,26 +70,26 @@ public class Main {
         KeyPair keyPair = RSA.generateKeyPair();
 
         try {
+//            testSignedFile(keyPair);
+//            testUser();
             {
 //                testAES(message, key);
                 User filippo = User.createUser("Filippo", "raspberry");
-//                User filippo = User.fromFile(new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\Filippo.user.lyan"), "raspberry");
-                filippo.save("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\");
                 User paolo = User.createUser("Paolo", "sugoma");
                 Certifier.initialize(RSA.generateKeyPair());
-                SourceFile sourceFile = SourceFile.fromFile(new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt"),
+                SourceFile sourceFile = SourceFile.fromFile(new File("JavaApplication/res/test/amogus.txt"),
                         Arrays.asList(filippo.getPublicUser(), paolo.getPublicUser()));
                 Certifier.Certificate certificate = Certifier.createCertificate(filippo.getPublicUser());
-//                Certifier.Certificate certificate = Certifier.fromFile(new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\Filippo.cert.lyan"));
-                certificate.save("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\");
+                certificate.save("JavaApplication/res/test/");
                 SignedFile signedFile = new SignedFile(sourceFile, filippo, certificate);
                 System.out.println("File signed by: " + signedFile.verifySignature());
-                signedFile.save("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\");
+                signedFile.save("JavaApplication/res/test/");
                 signedFile = SignedFile.fromFile(
-                        new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\amogus.txt.sig.lyan"),
+                        new File("JavaApplication/res/test/amogus.txt.sig.lyan"),
                         paolo);
                 System.out.println("File signed by: " + signedFile.verifySignature());
-                signedFile.saveSourceFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test\\");
+//                signedFile.saveSourceFile("JavaApplication/res/test/");
+
             }
         }
         catch (Exception e) {

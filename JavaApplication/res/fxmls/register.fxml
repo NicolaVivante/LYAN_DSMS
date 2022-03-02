@@ -10,10 +10,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.castelli.graphics.registerController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.castelli.graphics.controllers.registerController">
    <ImageView fitHeight="402.0" fitWidth="600.0" pickOnBounds="true">
       <image>
-         <Image url="@../../../../res/background.jpg" />
+         <Image url="@../img/background.jpg" />
       </image>
    </ImageView>
    <Group layoutX="92.0" layoutY="2.0">
@@ -23,7 +23,7 @@
             <children>
                <ImageView fitHeight="78.0" fitWidth="395.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../../../../res/LYAN_DSMS.png" />
+                     <Image url="@../img/LYAN_DSMS.png" />
                   </image>
                   <VBox.margin>
                      <Insets bottom="30.0" />

@@ -18,7 +18,7 @@ public class Login extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL url = new File("JavaApplication/src/it/castelli/graphics/login.fxml").toURI().toURL();
+        URL url = new File("JavaApplication/res/fxmls/login.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
 

@@ -4,9 +4,12 @@
 .loginButton {
     -fx-background-color: #82c6ff;
     -fx-text-fill: #ffffff;
-}
-.text-field {
     -fx-prompt-text-fill: #ffffff;
+}
+.passwordTextField {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #000000;
+    -fx-prompt-text-fill: #000000;
 }
 .text-field:empty .text {
     -fx-effect: null ;
