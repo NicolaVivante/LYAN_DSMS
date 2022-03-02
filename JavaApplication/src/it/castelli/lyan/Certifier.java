@@ -1,7 +1,13 @@
 package it.castelli.lyan;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.castelli.utils.Converter;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.security.KeyPair;
 
 public class Certifier {
@@ -30,6 +36,10 @@ public class Certifier {
 
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     public static class Certificate {
+
+        @JsonIgnore
+        private static final String EXTENSION = ".cert.lyan";
+
         private PublicUser publicUser;
         private String certifierSignature;
 
@@ -46,6 +56,20 @@ public class Certifier {
 
         public String getCertifierSignature() {
             return certifierSignature;
+        }
+
+        public void save(String path) throws Exception {
+            String certificateString = new ObjectMapper().writeValueAsString(this);
+            byte[] fileContentBytes = Converter.stringToByteArray(certificateString);
+            String fileName = path + this.publicUser.getUserName();
+            File newFile = new File(fileName);
+            if (newFile.createNewFile()) {
+                FileOutputStream outputStream = new FileOutputStream(fileName);
+                outputStream.write(fileContentBytes);
+                outputStream.close();
+            } else {
+                throw new Exception("File already exists");
+            }
         }
     }
 }

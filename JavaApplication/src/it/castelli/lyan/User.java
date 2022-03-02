@@ -80,7 +80,7 @@ public class User {
         return new PublicUser(userName, getPublicKey());
     }
 
-    public void createFile(String path) throws Exception {
+    public void save(String path) throws Exception {
         // to json and to file in file system
         String jsonObject = new ObjectMapper().writeValueAsString(this);
         String encryptedJsonObject = AES.encrypt(jsonObject, password);

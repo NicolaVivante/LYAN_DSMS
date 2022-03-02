@@ -58,7 +58,7 @@ public class Main {
 
     public static void testUser() throws Exception {
         User myUser = User.createUser("Babao", "defiga");
-        myUser.createFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\");
+        myUser.save("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\");
         File userFile = new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\Babao.user.lyan");
         User anotherUser = User.readUser(userFile, "awkudhwak");
         System.out.println("Content: " + anotherUser.getUserName());
@@ -77,8 +77,7 @@ public class Main {
                 User filippo = User.createUser("Filippo", "raspberry");
                 User paolo = User.createUser("Paolo", "sugoma");
                 Certifier.initialize(RSA.generateKeyPair());
-                SourceFile sourceFile = new SourceFile(
-                        new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt"),
+                SourceFile sourceFile = SourceFile.fromFile(new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\amogus.txt"),
                         Arrays.asList(filippo.getPublicUser(), paolo.getPublicUser()));
                 Certifier.Certificate certificate = Certifier.getCertificate(filippo.getPublicUser());
                 SignedFile signedFile = new SignedFile(sourceFile, paolo, certificate);

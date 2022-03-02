@@ -8,6 +8,7 @@ import it.castelli.encryption.SHA_256;
 import it.castelli.utils.Converter;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
@@ -23,27 +24,26 @@ public class SourceFile {
 
     private SourceFile() {}
 
-    public SourceFile(File file) {
-        try {
-            fileName = file.getName();
+    public static SourceFile fromFile(File file) throws Exception {
+            String fileName = file.getName();
             byte[] fileContentBytes = Files.readAllBytes(file.toPath());
-            fileContent = Converter.byteArrayToString(fileContentBytes);
-            isEncrypted = false;
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+            String fileContent = Converter.byteArrayToString(fileContentBytes);
+            return new SourceFile(fileName, fileContent);
+    }
+
+    public static SourceFile fromFile(File file, List<PublicUser> recipients) throws Exception {
+        String fileName = file.getName();
+        byte[] fileContentBytes = Files.readAllBytes(file.toPath());
+        String fileContent = Converter.byteArrayToString(fileContentBytes);
+        SourceFile sourceFile = new SourceFile(fileName, fileContent);
+        sourceFile.encrypt(recipients);
+        return sourceFile;
     }
 
     private SourceFile(String fileName, String fileContent) {
         this.fileName = fileName;
         this.fileContent = fileContent;
         isEncrypted = false;
-    }
-
-    public SourceFile(File file, List<PublicUser> recipients) {
-        this(file);
-        encrypt(recipients);
     }
 
     private void encrypt(List<PublicUser> recipients) {
@@ -65,7 +65,9 @@ public class SourceFile {
         }
     }
 
-    private SourceFile decrypt(User user) throws Exception {
+    public SourceFile decrypt(User user) throws Exception {
+        if (!isEncrypted) return this;
+
         String userNameDigest = SHA_256.getDigest(user.getUserName());
         if (recipientsKeys.containsKey(userNameDigest)) {
             // get decryption key
@@ -82,19 +84,24 @@ public class SourceFile {
         }
     }
 
-    public SourceFile getAccess(User user) throws Exception {
-        if (isEncrypted) {
-            return decrypt(user);
-        } else {
-            return this;
-        }
-    }
-
     public String getFileName() {
         return fileName;
     }
 
     public String getFileContent() {
         return fileContent;
+    }
+
+    public void save(String path) throws Exception {
+        byte[] fileContentBytes = Converter.stringToByteArray(fileContent);
+        String fileName = path + this.fileName;
+        File newFile = new File(fileName);
+        if (newFile.createNewFile()) {
+            FileOutputStream outputStream = new FileOutputStream(fileName);
+            outputStream.write(fileContentBytes);
+            outputStream.close();
+        } else {
+            throw new Exception("File already exists");
+        }
     }
 }

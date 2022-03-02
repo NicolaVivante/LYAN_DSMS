@@ -32,12 +32,11 @@ public class SignedFile {
         String jsonObject = Compressor.decompress(compressedJsonObject);
 
         SignedFile signedFile = new ObjectMapper().readValue(jsonObject, SignedFile.class);
-        signedFile.sourceFileUnlocked = signedFile.sourceFile.getAccess(user);
+        signedFile.sourceFileUnlocked = signedFile.sourceFile.decrypt(user);
         return signedFile;
     }
 
     public void save(String path) throws Exception {
-
         // to json and to file in file system
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonObject = objectMapper.writeValueAsString(this);
@@ -57,7 +56,7 @@ public class SignedFile {
 
     public SignedFile(SourceFile sourceFile, User user, Certifier.Certificate certificate) throws Exception {
         this.sourceFile = sourceFile;
-        this.sourceFileUnlocked = sourceFile.getAccess(user);
+        this.sourceFileUnlocked = sourceFile.decrypt(user);
         String fileContent = sourceFileUnlocked.getFileContent();
         if (!Certifier.verifyCertificate(certificate)) throw new Exception("Invalid certificate!");
         if (!certificate.getPublicUser().equals(user.getPublicUser())) throw new Exception("Certificate user and given user don't correspond!");
@@ -77,16 +76,6 @@ public class SignedFile {
     }
 
     public void saveSourceFile(String path) throws Exception {
-        String fileContent = sourceFileUnlocked.getFileContent();
-        byte[] fileContentBytes = Converter.stringToByteArray(fileContent);
-        String fileName = path + sourceFileUnlocked.getFileName();
-        File newFile = new File(fileName);
-        if (newFile.createNewFile()) {
-            FileOutputStream outputStream = new FileOutputStream(fileName);
-            outputStream.write(fileContentBytes);
-            outputStream.close();
-        } else {
-            throw new Exception("File already exists");
-        }
+        sourceFileUnlocked.save(path);
     }
 }
