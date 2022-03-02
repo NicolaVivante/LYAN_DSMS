@@ -1,0 +1,18 @@
+.background {
+    -fx-background-color: #1e2953;
+}
+.loginButton {
+    -fx-background-color: #82c6ff;
+    -fx-text-fill: #ffffff;
+}
+.text-field {
+    -fx-prompt-text-fill: #ffffff;
+}
+.text-field:empty .text {
+    -fx-effect: null ;
+    -fx-alignment: center ;
+}
+.show-password{
+    -fx-background-color: #040d2f;
+    -fx-prompt-text-fill: #ffffff;
+}
