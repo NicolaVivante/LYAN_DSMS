@@ -9,16 +9,9 @@ const DataManager = require("./js/JSONDataManager");
 
 // API URLs
 app.get("/users", async (req, res) => {
-  // TODO: filters
-  res.status(200).json(await DataManager.getUsers());
-});
-
-app.get("/verify", async (req, res) => {
-  res.status(200).json({
-    verified:
-      (await DataManager.getUserByName(req.body.username).passwordDigest) ==
-      req.body.passwordDigest,
-  });
+  if (req.query.userName)
+    res.status(200).json(await DataManager.getUserByName(req.query.userName));
+  else res.status(200).json(await DataManager.getUsers());
 });
 
 app.post("/users", async (req, res) => {
