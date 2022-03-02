@@ -12,7 +12,6 @@ The best Digital Signature Management System
 - bool userExists(UserName)
 - void register(UserName, PasswordDigest, PublicKey)
 - bool verifyUser(UserName, PasswordDigest)
-- void addPublicKey(UserName, PublicKey)
 - String getUser(UserName)
 - String[] getAllUsers()
 

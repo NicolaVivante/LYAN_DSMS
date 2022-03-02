@@ -1,1 +1,4 @@
-[{"userName":"luca","passwordDigest":null,"publicKey":null,"key":"sus"},{"userName":"giorgio","passwordDigest":null,"publicKey":null}]
+[
+  { "userName": "luca", "passwordHash": null, "publicKey": null, "key": "sus" },
+  { "userName": "giorgio", "passwordHash": null, "publicKey": null }
+]
