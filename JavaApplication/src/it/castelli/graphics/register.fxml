@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.castelli.graphics.registerController">
+   <ImageView fitHeight="402.0" fitWidth="600.0" pickOnBounds="true">
+      <image>
+         <Image url="@../../../../res/background.jpg" />
+      </image>
+   </ImageView>
+   <Group layoutX="92.0" layoutY="2.0">
+      <children>
+         <Button alignment="CENTER" contentDisplay="CENTER" layoutX="70.0" layoutY="110.0" mnemonicParsing="false" opacity="0.91" prefHeight="260.0" prefWidth="291.0" styleClass="background" />
+         <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="419.0" spacing="30.0">
+            <children>
+               <ImageView fitHeight="78.0" fitWidth="395.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../../../res/LYAN_DSMS.png" />
+                  </image>
+                  <VBox.margin>
+                     <Insets bottom="30.0" />
+                  </VBox.margin>
+               </ImageView>
+               <HBox alignment="CENTER" layoutX="10.0" layoutY="226.0">
+                  <children>
+                     <TextField fx:id="username" alignment="CENTER" prefHeight="31.0" prefWidth="190.0" promptText="username" styleClass="loginButton" />
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER">
+                  <children>
+                     <TextField fx:id="passwordTextField" alignment="CENTER" prefHeight="31.0" prefWidth="190.0" promptText="password" styleClass="loginButton" />
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER">
+                  <children>
+                      <TextField fx:id="confirmPasswordTextField" alignment="CENTER" prefHeight="31.0" prefWidth="190.0" promptText="confirm password" styleClass="loginButton" />
+                  </children>
+               </HBox>
+               <Button mnemonicParsing="false" onAction="#register" prefHeight="25.0" prefWidth="83.0" styleClass="loginButton" text="SIGN UP" />
+            </children>
+         </VBox>
+      </children>
+   </Group>
+</AnchorPane>

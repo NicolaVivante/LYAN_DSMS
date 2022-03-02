@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
 }
 
 group 'it.castelli'
@@ -9,7 +10,10 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
 }
-
+javafx {
+    version '16'
+    modules = ['javafx.controls', 'javafx.fxml']
+}
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
@@ -30,6 +34,9 @@ sourceSets {
     main {
         java {
             srcDirs = ['src']
+        }
+        resources {
+            srcDirs = ['res']
         }
     }
 }
