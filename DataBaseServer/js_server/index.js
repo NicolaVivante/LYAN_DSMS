@@ -1,9 +1,17 @@
-const fs = require("fs").promises;
 const express = require("express");
 const app = express();
 app.use(express.json());
 const PORT = 5555;
 
+
+// START JSON LOGIC
+/*
+* JSON management
+* All the information is stored in a simple JSON file
+* Quicker and easier to set up, but slower and less capable of handling too much users.
+* Use this if MySQL is not configured on the server
+*/
+const fs = require("fs").promises;
 async function readfile(path) {
   try {
     return await fs.readFile(path);
@@ -46,13 +54,12 @@ const JSONDataManager = {
     writeFile(filePath, JSON.stringify(users));
   },
 };
+// END JSON LOGIC
 
-async function test() {
-  console.log(await JSONDataManager.getUserByName("luca"));
-  await JSONDataManager.setKey("test", "luca");
-}
-test();
-
+// START DB LOGIC
+/*
+ * MySQL DB storing all the users (DDL in DataBaseServer\sql\db_creation.sql)
+*/
 const DBDataManager = {
   getUsers: () => {
     // TODO
@@ -67,9 +74,12 @@ const DBDataManager = {
     // TODO
   },
 };
+// END DB LOGIC
 
+// Change the value of this variable to JSONDataManager or DBDataManager to swich between the two systems
 const DataManager = JSONDataManager;
 
+// API URLs
 app.get("/users", async (req, res) => {
   // TODO: filters
   res.json(await DataManager.getUsers());
