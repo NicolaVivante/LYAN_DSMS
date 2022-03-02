@@ -39,14 +39,19 @@ const JSONDataManager = {
     writeFile(filePath, JSON.stringify(users));
   },
   setKey: async (key, userName) => {
-    // TODO
+    let users = JSON.parse(await readfile(filePath));
+    users.forEach(element => {
+      if (element.userName == userName) element.key = key;
+    });
+    writeFile(filePath, JSON.stringify(users));
   },
 };
 
-async function sus() {
+async function test() {
   console.log(await JSONDataManager.getUserByName("luca"));
+  await JSONDataManager.setKey("test", "luca");
 }
-sus();
+test();
 
 const DBDataManager = {
   getUsers: () => {
