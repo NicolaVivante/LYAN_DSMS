@@ -26,15 +26,6 @@ app.post("/users", async (req, res) => {
   res.status((await DataManager.addUser(req.body)) ? 200 : 500).end();
 });
 
-app.post("/key", async (req, res) => {
-  // TODO: check JSON consistency
-  res
-    .status(
-      (await DataManager.setKey(req.body.key, req.body.userName)) ? 200 : 500
-    )
-    .end();
-});
-
 app.listen(PORT, async () => {
   console.log("LYAN server listening on port " + PORT);
 });

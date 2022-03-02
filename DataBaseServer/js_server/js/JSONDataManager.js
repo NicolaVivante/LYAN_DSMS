@@ -40,12 +40,5 @@ JSONDataManager.addUser = async (user) => {
   users.push(user);
   return writeFile(filePath, JSON.stringify(users));
 };
-JSONDataManager.setKey = async (key, userName) => {
-  let users = JSON.parse(await readfile(filePath));
-  users.forEach((element) => {
-    if (element.userName == userName) element.key = key;
-  });
-  return writeFile(filePath, JSON.stringify(users));
-};
 
 module.exports = JSONDataManager;

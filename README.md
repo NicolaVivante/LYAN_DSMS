@@ -10,10 +10,10 @@ The best Digital Signature Management System
 
 ## DB interaction methods
 - bool userExists(UserName)
-- void register(UserName, PasswordDigest)
+- void register(UserName, PasswordDigest, PublicKey)
 - bool verifyUser(UserName, PasswordDigest)
 - void addPublicKey(UserName, PublicKey)
-- String getPublicKey(UserName)
+- String getUser(UserName)
 - String[] getAllUsers()
 
 ## General system
