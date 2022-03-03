@@ -16,6 +16,7 @@ app.get("/users", async (req, res) => {
 
 app.post("/users", async (req, res) => {
   // TODO: check JSON consistency
+  console.log(req.body);
   res.status((await DataManager.addUser(req.body)) ? 200 : 500).end();
 });
 

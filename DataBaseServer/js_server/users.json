@@ -1,4 +1,1 @@
-[
-  { "userName": "luca", "passwordHash": null, "publicKey": null },
-  { "userName": "giorgio", "passwordHash": null, "publicKey": null }
-]
+[{"userName":"luca","passwordHash":"sas","publicKey":"sus"},{"userName":"giorgio","passwordHash":"sos","publicKey":"sis"}]
