@@ -3,8 +3,6 @@ package it.castelli.lyan;
 import it.castelli.encryption.RSA;
 import org.junit.jupiter.api.Test;
 
-import java.security.KeyPair;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -20,7 +18,7 @@ class ServerMiddlewareTest {
 		try {
 			User user = User.createUser("test", "sas");
 			ServerMiddleware.registerUser(user);
-			assertEquals(user.getPublicUser(), ServerMiddleware.getUser(user.getUserName()));
+			assertEquals(user.getPublicUser(), ServerMiddleware.getPublicUser(user.getUserName()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -28,7 +26,7 @@ class ServerMiddlewareTest {
 
 	@Test
 	void getUser() {
-		assertEquals(new PublicUser("luca", RSA.publicKeyFromString("sus")), ServerMiddleware.getUser("luca"));
+		assertEquals(new PublicUser("luca", RSA.publicKeyFromString("sus")), ServerMiddleware.getPublicUser("luca"));
 	}
 
 	@Test
