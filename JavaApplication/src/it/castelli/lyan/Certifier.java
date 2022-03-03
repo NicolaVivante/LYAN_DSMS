@@ -55,11 +55,11 @@ public class Certifier {
         }
     }
 
-    public static Certificate createCertificate(PublicUser publicUser) throws Exception {
+    public static Certificate createCertificate(User user) throws Exception {
         if (!isInitialized) throw new Exception("Certifier must be initialized");
-        String publicUserString = publicUser.toString();
+        String publicUserString = user.getPublicUser().toString();
         String signature = SignatureManager.getSignature(publicUserString, keyPair.getPrivate());
-        return new Certificate(publicUser, signature);
+        return new Certificate(user.getPublicUser(), signature);
     }
 
     public static Certificate fromFile(File file) throws Exception {
