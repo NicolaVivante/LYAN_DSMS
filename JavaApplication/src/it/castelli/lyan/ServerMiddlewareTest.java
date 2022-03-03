@@ -25,15 +25,7 @@ class ServerMiddlewareTest {
 	}
 
 	@Test
-	void getUser() {
-		assertEquals(new PublicUser("luca", RSA.publicKeyFromString("sus")), ServerMiddleware.getPublicUser("luca"));
-	}
-
-	@Test
 	void getAllUsers() {
-		assertEquals(new PublicUser[] {
-				new PublicUser("luca", RSA.publicKeyFromString("sus")),
-				new PublicUser("giorgio", RSA.publicKeyFromString("sis"))
-		}, ServerMiddleware.getAllUsers());
+
 	}
 }

@@ -28,7 +28,6 @@ public class ServerMiddleware {
 		}
 		String body = new ObjectMapper().writeValueAsString(
 				new UserJson(user.getUserName(), RSA.publicKeyToString(user.getPublicKey())));
-		System.out.println(body);
 		int status = Unirest.post(serverAddress + "users")
 				.header("Content-Type", "application/json")
 				.header("accept", "application/json")
@@ -46,7 +45,6 @@ public class ServerMiddleware {
 		try {
 			String responseBody =
 					Unirest.get(serverAddress + "users").queryString("userName", userName).asString().getBody();
-			System.out.println(responseBody);
 			return new ObjectMapper().readValue(responseBody, PublicUser.class);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
