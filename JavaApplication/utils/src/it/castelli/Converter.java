@@ -1,4 +1,4 @@
-package it.castelli.utils;
+package it.castelli;
 
 import java.nio.charset.StandardCharsets;
 

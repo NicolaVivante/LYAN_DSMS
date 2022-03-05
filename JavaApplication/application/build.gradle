@@ -30,7 +30,7 @@ test {
 }
 
 application {
-    mainClass = "it.castelli.Main"
+    mainClass = "it.castelli.ApplicationMain"
 }
 
 sourceSets {

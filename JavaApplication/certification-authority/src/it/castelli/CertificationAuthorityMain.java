@@ -1,6 +1,6 @@
 package it.castelli;
 
-public class Main {
+public class CertificationAuthorityMain {
 	public static void main(String[] args) {
 
 	}

@@ -1,4 +1,4 @@
-package it.castelli.utils;
+package it.castelli;
 
 import java.io.ByteArrayOutputStream;
 import java.util.zip.DeflaterOutputStream;

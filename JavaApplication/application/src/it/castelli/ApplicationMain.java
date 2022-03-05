@@ -10,7 +10,7 @@ import java.io.File;
 import java.security.KeyPair;
 import java.util.Arrays;
 
-public class Main {
+public class ApplicationMain {
 
 	public static void main(String[] args) {
 		String message = "a very secret message, do not let others than you read this";

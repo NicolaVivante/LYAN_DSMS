@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import it.castelli.encryption.AES;
 import it.castelli.encryption.RSA;
 import it.castelli.encryption.SHA_256;
-import it.castelli.utils.Converter;
+import it.castelli.Converter;
 
 import java.io.File;
 import java.io.FileOutputStream;

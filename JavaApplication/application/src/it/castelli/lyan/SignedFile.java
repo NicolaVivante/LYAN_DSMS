@@ -3,8 +3,8 @@ package it.castelli.lyan;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.castelli.utils.Compressor;
-import it.castelli.utils.Converter;
+import it.castelli.Compressor;
+import it.castelli.Converter;
 
 import java.io.File;
 import java.io.FileOutputStream;

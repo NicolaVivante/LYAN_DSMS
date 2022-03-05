@@ -1,6 +1,6 @@
 package it.castelli.encryption;
 
-import it.castelli.utils.Converter;
+import it.castelli.Converter;
 
 import javax.crypto.Cipher;
 import java.security.*;

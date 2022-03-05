@@ -20,7 +20,7 @@ sourceSets {
 }
 
 application {
-    mainClass = 'it.castelli.Main'
+    mainClass = 'it.castelli.CertificationAuthorityMain'
 }
 
 run {
