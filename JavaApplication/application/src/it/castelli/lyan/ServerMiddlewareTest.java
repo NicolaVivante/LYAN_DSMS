@@ -1,6 +1,5 @@
 package it.castelli.lyan;
 
-import it.castelli.encryption.RSA;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

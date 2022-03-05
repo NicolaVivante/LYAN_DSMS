@@ -1,0 +1,5 @@
+rootProject.name = 'LYAN_DSMS-Java'
+
+include 'application'
+include 'certification-authority'
+include 'utils'

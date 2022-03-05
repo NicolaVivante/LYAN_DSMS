@@ -4,7 +4,6 @@ import it.castelli.utils.Converter;
 
 import javax.crypto.Cipher;
 import java.security.*;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
