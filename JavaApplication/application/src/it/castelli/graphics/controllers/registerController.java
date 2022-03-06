@@ -42,16 +42,17 @@ public class registerController implements Initializable {
 
     }
 
+    @FXML
+    public void back() throws Exception {
+        Login temp=new Login();
+        PrimaryStage.secondStage.close();
+        temp.start(PrimaryStage.primaryStage);
+    }
     private void sendUsername(String username) throws Exception {
         //send username to the server
         boolean response=true;
-        if (!response){
-            AlertUtil.showErrorAlert("server error","username not valid","there's another user with the same username,try it another one");
-        }
-        else{
-            Login temp=new Login();
-            PrimaryStage.secondStage.close();
-            temp.start(PrimaryStage.primaryStage);
-        }
+        if (!response)
+            AlertUtil.showErrorAlert("server error", "username not valid", "there's another user with the same username,try it another one");
+        else back();
     }
 }
