@@ -17,6 +17,7 @@ public class ApplicationMain {
 		String key = "secret key";
 		KeyPair keyPair = RSA.generateKeyPair();
 
+
 		try {
 			{
 //                testAES(message, key);
@@ -24,12 +25,12 @@ public class ApplicationMain {
 //                User filippo = User.fromFile(new File
 //                ("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test
 //                \\Filippo.user.lyan"), "raspberry");
-				filippo.save("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources" +
-                        "\\test\\");
+//				filippo.save("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources" +
+//                        "\\test\\");
 				User paolo = User.createUser("Paolo", "sugoma");
-				Certifier.initialize(RSA.generateKeyPair());
-				Certifier.saveKeys("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main" +
-                        "\\resources\\test\\");
+//				Certifier.initialize(RSA.generateKeyPair());
+//				Certifier.saveKeys("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main" +
+//                        "\\resources\\test\\");
 				SourceFile sourceFile =
 						SourceFile.fromFile(new File("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication" +
                                         "\\src\\main\\resources\\amogus.txt"),
@@ -38,8 +39,8 @@ public class ApplicationMain {
 //                Certifier.Certificate certificate = Certifier.fromFile(new File
 //                ("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\test
 //                \\Filippo.cert.lyan"));
-				certificate.save("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main" +
-                        "\\resources\\test\\");
+//				certificate.save("C:\\Users\\Win10\\Documets\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main" +
+//                        "\\resources\\test\\");
 				SignedFile signedFile = new SignedFile(sourceFile, filippo, certificate);
 				System.out.println("File signed by: " + signedFile.verifySignature());
 				signedFile.save("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources" +

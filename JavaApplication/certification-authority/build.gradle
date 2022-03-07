@@ -9,6 +9,10 @@ repositories {
 
 dependencies {
     implementation project(':utils')
+    implementation 'com.konghq:unirest-java:3.13.6'
+    implementation 'com.sparkjava:spark-core:2.9.3'
+    implementation 'org.slf4j:slf4j-api:1.7.32'
+    implementation 'org.slf4j:slf4j-simple:1.7.32'
 }
 
 sourceSets {
