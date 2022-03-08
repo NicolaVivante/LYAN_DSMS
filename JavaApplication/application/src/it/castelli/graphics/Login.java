@@ -23,8 +23,8 @@ public class Login extends Application {
         Scene scene = new Scene(root);
 
 
-        PrimaryStage.primaryStage.setScene(scene);
-        PrimaryStage.primaryStage.show();
+        PrimaryStage.secondStage.setScene(scene);
+        PrimaryStage.secondStage.show();
 
     }
 }

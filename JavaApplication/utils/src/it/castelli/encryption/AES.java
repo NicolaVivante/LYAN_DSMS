@@ -13,6 +13,7 @@ public class AES {
 
     private static void init() {
         Security.setProperty("crypto.policy", "unlimited");
+//        System.out.println("Authorization granted to AES");
         initDone = true;
     }
 

@@ -22,8 +22,8 @@ public class Register extends Application {
         Scene scene = new Scene(root);
 
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        PrimaryStage.secondStage.setScene(scene);
+        PrimaryStage.secondStage.show();
 
     }
 }

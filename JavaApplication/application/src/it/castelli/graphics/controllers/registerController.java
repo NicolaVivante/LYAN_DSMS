@@ -4,6 +4,8 @@ package it.castelli.graphics.controllers;
 import it.castelli.graphics.AlertUtil;
 import it.castelli.graphics.Login;
 import it.castelli.graphics.PrimaryStage;
+import it.castelli.graphics.Register;
+import it.castelli.lyan.ServerMiddleware;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,10 +37,16 @@ public class registerController implements Initializable {
 
     }
     private void check(String password,String password1,String username) throws Exception {
-        if(password.equals(password1))
-            sendUsername(username);
+//        control of the username
+//        if(ServerMiddleware.userExists(username)) {
+        if(true) {
+            AlertUtil.showErrorAlert("client error","username not valid","username is already used, please change it ");
+        }
         else
-            AlertUtil.showErrorAlert("client error","password not valid","passwords are not equals,please check them ");
+            if(password.equals(password1))
+                sendUsername(username);
+            else
+                AlertUtil.showErrorAlert("client error","password not valid","passwords are not equals,please check them ");
 
     }
 
