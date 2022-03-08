@@ -34,8 +34,8 @@ db.selectUserByName = (userName) => {
 db.insertUser = (user) => {
   return new Promise((resolve, reject) => {
     dbConn.query(
-      "INSERT INTO users(username, passwordHash, publicKey) VALUES(?, ?, ?)",
-      [user.userName, user.passwordDigest, user.key],
+      "INSERT INTO users(username, publicKey) VALUES(?, ?)",
+      [user.userName, user.publicKeyString],
       (error) => {
         return error ? reject(error) : resolve();
       }

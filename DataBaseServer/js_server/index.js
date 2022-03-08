@@ -7,6 +7,8 @@ const PORT = process.env.PORT;
 // Change the value of this variable to JSONDataManager or DBDataManager to swich between the two systems
 const DataManager = require("./js/JSONDataManager");
 
+console.log(require("./js/rsa").encrypt());
+
 // API URLs
 app.get("/users", async (req, res) => {
   if (req.query.userName)
@@ -16,7 +18,6 @@ app.get("/users", async (req, res) => {
 
 app.post("/users", async (req, res) => {
   // TODO: check JSON consistency
-  console.log(req.body);
   res.status((await DataManager.addUser(req.body)) ? 200 : 500).end();
 });
 
