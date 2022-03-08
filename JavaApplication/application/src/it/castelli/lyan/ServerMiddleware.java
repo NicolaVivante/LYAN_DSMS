@@ -1,5 +1,6 @@
 package it.castelli.lyan;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.castelli.encryption.RSA;
@@ -55,13 +56,14 @@ public class ServerMiddleware {
                     Unirest.get(DB_SERVER_ADDRESS + "users").queryString("userName", userName).asString().getBody();
             return new ObjectMapper().readValue(responseBody, PublicUser.class);
         }
-        catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
         catch (RuntimeException e) {
             throw new Exception("Cannot connect with users DB");
         }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     /**
@@ -74,12 +76,12 @@ public class ServerMiddleware {
             String responseBody = Unirest.get(DB_SERVER_ADDRESS + "users").asString().getBody();
             return new ObjectMapper().readValue(responseBody, PublicUser[].class);
         }
-        catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return new PublicUser[0];
-        }
         catch (RuntimeException e) {
             throw new Exception("Cannot connect with users DB");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new PublicUser[0];
         }
     }
 
