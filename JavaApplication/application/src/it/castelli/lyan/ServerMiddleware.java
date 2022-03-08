@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.castelli.encryption.RSA;
 import kong.unirest.Unirest;
-import kong.unirest.UnirestException;
 
 import java.net.ConnectException;
 
@@ -18,7 +17,7 @@ public class ServerMiddleware {
      * @param userName The name of the user
      * @return true if the user exists, false if not
      */
-    public static boolean userExists(String userName) {
+    public static boolean userExists(String userName) throws Exception{
         return getPublicUser(userName) == null;
     }
 
@@ -28,15 +27,20 @@ public class ServerMiddleware {
      * @param user The user to add
      */
     public static void registerUser(User user) throws Exception {
-        record UserJson(String userName, String publicKeyString) {
-        }
+        record UserJson(String userName, String publicKeyString) {}
         String body = new ObjectMapper().writeValueAsString(
                 new UserJson(user.getUserName(), RSA.publicKeyToString(user.getPublicKey())));
-        int status = Unirest.post(DB_SERVER_ADDRESS + "users")
-                .header("Content-Type", "application/json")
-                .header("accept", "application/json")
-                .body(body).asJson().getStatus();
-        if (status >= 500) throw new Exception("Server error while adding the user");
+        try {
+            int status = Unirest.post(DB_SERVER_ADDRESS + "users")
+                    .header("Content-Type", "application/json")
+                    .header("accept", "application/json")
+                    .body(body).asJson().getStatus();
+            if (status >= 500) {
+                throw new Exception("Server error while adding the user");
+            }
+        } catch (RuntimeException e) {
+            throw new Exception("Cannot connect with users DB");
+        }
     }
 
     /**
@@ -45,7 +49,7 @@ public class ServerMiddleware {
      * @param userName The name of the user (unique)
      * @return The PublicUser, null if there are errors
      */
-    public static PublicUser getPublicUser(String userName) {
+    public static PublicUser getPublicUser(String userName) throws Exception{
         try {
             String responseBody =
                     Unirest.get(DB_SERVER_ADDRESS + "users").queryString("userName", userName).asString().getBody();
@@ -55,6 +59,9 @@ public class ServerMiddleware {
             e.printStackTrace();
             return null;
         }
+        catch (RuntimeException e) {
+            throw new Exception("Cannot connect with users DB");
+        }
     }
 
     /**
@@ -62,7 +69,7 @@ public class ServerMiddleware {
      *
      * @return An array of users, empty if there are errors
      */
-    public static PublicUser[] getAllUsers() {
+    public static PublicUser[] getAllUsers() throws Exception {
         try {
             String responseBody = Unirest.get(DB_SERVER_ADDRESS + "users").asString().getBody();
             return new ObjectMapper().readValue(responseBody, PublicUser[].class);
@@ -71,14 +78,16 @@ public class ServerMiddleware {
             e.printStackTrace();
             return new PublicUser[0];
         }
+        catch (RuntimeException e) {
+            throw new Exception("Cannot connect with users DB");
+        }
     }
 
     public static String encrypt(String content) throws Exception {
         try {
             return Unirest.post(CERTIFICATION_AUTHORITY_SERVER_ADDRESS + "encrypt").body(content).asString().getBody();
-
         }
-        catch (Exception e) {
+        catch (RuntimeException e) {
             throw new Exception("Cannot connect with certification authority");
         }
     }
@@ -87,7 +96,7 @@ public class ServerMiddleware {
         try {
             return Unirest.post(CERTIFICATION_AUTHORITY_SERVER_ADDRESS + "decrypt").body(content).asString().getBody();
         }
-        catch (Exception e) {
+        catch (RuntimeException e) {
             throw new Exception("Cannot connect with certification authority");
         }
     }

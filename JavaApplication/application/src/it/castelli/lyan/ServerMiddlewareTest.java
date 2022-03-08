@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ServerMiddlewareTest {
 
 	@Test
-	void userExists() {
+	void userExists() throws Exception{
 		assertTrue(ServerMiddleware.userExists("luca"));
 	}
 

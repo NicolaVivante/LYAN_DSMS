@@ -13,7 +13,6 @@ public class AES {
 
     private static void init() {
         Security.setProperty("crypto.policy", "unlimited");
-        System.out.println("Authorization granted to AES");
         initDone = true;
     }
 
@@ -33,7 +32,7 @@ public class AES {
             return cipher.doFinal(plainTextBytes);
         }
         catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return new byte[0];
         }
     }
@@ -53,7 +52,7 @@ public class AES {
             return cipher.doFinal(cipherTextBytes);
         }
         catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return new byte[0];
         }
     }

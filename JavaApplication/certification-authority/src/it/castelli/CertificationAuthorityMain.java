@@ -6,8 +6,11 @@ import spark.Spark;
 import java.security.KeyPair;
 
 public class CertificationAuthorityMain {
+
+    private static final String KEYS_PATH = "C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\certification-authority\\res\\";
+
     public static void main(String[] args) throws Exception {
-        KeyPair keyPair = RSA.fromFile("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\certification-authority\\res\\");
+        KeyPair keyPair = RSA.fromFile(KEYS_PATH);
 
         Spark.port(1111);
 
