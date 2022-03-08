@@ -53,7 +53,7 @@ public class loginController implements Initializable {
             }
             System.out.println(password);
                 try {
-                    User user = User.fromFile(selectedFile, password);
+                    PrimaryStage.currentUser= User.fromFile(selectedFile, password);
                 } catch (Exception e) {
                     AlertUtil.showErrorAlert("error", "error header", e.getMessage());
                 }

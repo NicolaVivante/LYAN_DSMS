@@ -6,6 +6,7 @@ import it.castelli.graphics.Login;
 import it.castelli.graphics.PrimaryStage;
 import it.castelli.graphics.Register;
 import it.castelli.lyan.ServerMiddleware;
+import it.castelli.lyan.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +17,7 @@ import java.util.ResourceBundle;
 
 public class registerController implements Initializable {
 
+    private static final String USER_PATH = "C:\\Users\\andre\\Downloads\\";
     @FXML
     private TextField username=new TextField();
     @FXML
@@ -38,14 +40,15 @@ public class registerController implements Initializable {
     }
     private void check(String password,String password1,String username) throws Exception {
 //        control of the username
-//        if(ServerMiddleware.userExists(username)) {
-        if(true) {
+        if(ServerMiddleware.userExists(username)) {
             AlertUtil.showErrorAlert("client error","username not valid","username is already used, please change it ");
         }
         else
-            if(password.equals(password1))
-                sendUsername(username);
-            else
+            if(password.equals(password1)) {
+                User user=User.createUser(username,password);
+                ServerMiddleware.registerUser(user);
+                user.save(USER_PATH);
+            } else
                 AlertUtil.showErrorAlert("client error","password not valid","passwords are not equals,please check them ");
 
     }
@@ -56,11 +59,5 @@ public class registerController implements Initializable {
         PrimaryStage.secondStage.close();
         temp.start(PrimaryStage.primaryStage);
     }
-    private void sendUsername(String username) throws Exception {
-        //send username to the server
-        boolean response=true;
-        if (!response)
-            AlertUtil.showErrorAlert("server error", "username not valid", "there's another user with the same username,try it another one");
-        else back();
-    }
+
 }
