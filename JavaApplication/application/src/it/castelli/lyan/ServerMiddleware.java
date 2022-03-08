@@ -19,7 +19,7 @@ public class ServerMiddleware {
      * @return true if the user exists, false if not
      */
     public static boolean userExists(String userName) throws Exception{
-        return getPublicUser(userName) == null;
+        return getPublicUser(userName) != null;
     }
 
     /**
@@ -60,7 +60,7 @@ public class ServerMiddleware {
             throw new Exception("Cannot connect with users DB");
         }
         catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return null;
         }
 
@@ -80,7 +80,7 @@ public class ServerMiddleware {
             throw new Exception("Cannot connect with users DB");
         }
         catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return new PublicUser[0];
         }
     }
