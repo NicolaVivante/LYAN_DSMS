@@ -30,7 +30,7 @@ test {
 }
 
 application {
-    mainClass = "it.castelli.ApplicationMain"
+    mainClass = "it.castelli.graphics.Login"
 }
 
 sourceSets {
