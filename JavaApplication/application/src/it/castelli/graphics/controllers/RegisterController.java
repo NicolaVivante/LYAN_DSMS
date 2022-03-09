@@ -1,6 +1,6 @@
 package it.castelli.graphics.controllers;
 
-
+import it.castelli.Paths;
 import it.castelli.graphics.AlertUtil;
 import it.castelli.graphics.Login;
 import it.castelli.graphics.PrimaryStage;
@@ -16,20 +16,20 @@ import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
 
-    private static final String USER_PATH = "C:\\Users\\asus\\Downloads\\";
     @FXML
-    private TextField username=new TextField();
+    private TextField username = new TextField();
     @FXML
-    private TextField confirmPasswordTextField=new TextField();
+    private TextField confirmPasswordTextField = new TextField();
     @FXML
-    private TextField passwordTextField=new TextField();
-
-
+    private TextField passwordTextField = new TextField();
 
     @FXML
-    public void register(ActionEvent event) throws Exception {
-        //enter the server
-        check(passwordTextField.getText(), confirmPasswordTextField.getText(), username.getText());
+    public void register(ActionEvent event) {
+        try {
+            check(passwordTextField.getText(), confirmPasswordTextField.getText(), username.getText());
+        } catch (Exception e) {
+            AlertUtil.showErrorAlert("Error", "An error occurred", e.getMessage());
+        }
     }
 
     //Run
@@ -37,28 +37,26 @@ public class RegisterController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
     }
-    private void check(String password,String password1,String username) throws Exception {
-//        control of the username
-        if(ServerMiddleware.userExists(username)) {
-            AlertUtil.showErrorAlert("client error","username not valid","username is already used, please change it ");
-        }
-        else
-            if(password.equals(password1)) {
-                User user=User.createUser(username,password);
-                ServerMiddleware.registerUser(user);
-                user.save(USER_PATH);
-                AlertUtil.showInformationAlert("User","User created","User created successfully");
-                back();
-            } else
-                AlertUtil.showErrorAlert("client error","password not valid","passwords are not equals,please check them ");
 
+    private void check(String password, String password1, String username) throws Exception {
+
+        if (ServerMiddleware.userExists(username)) {
+            throw new Exception("Username is already used, please change it ");
+        } else if (password.equals(password1)) {
+            User user = User.createUser(username, password);
+            ServerMiddleware.registerUser(user);
+            user.save();
+            AlertUtil.showInformationAlert("User", "User created", "User created successfully");
+            back();
+        } else {
+            throw new Exception("Password confirmation differs from original password");
+        }
     }
 
     @FXML
     public void back() throws Exception {
-        Login temp=new Login();
+        Login temp = new Login();
         PrimaryStage.secondStage.close();
         temp.start(PrimaryStage.primaryStage);
     }
-
 }

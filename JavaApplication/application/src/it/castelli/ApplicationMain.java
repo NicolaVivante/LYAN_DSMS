@@ -20,7 +20,7 @@ public class ApplicationMain {
                 Certifier.Certificate certificate = Certifier.createCertificate(pouy);
 
                 SignedFile signedFile = new SignedFile(sourceFile, pouy, certificate);
-                signedFile.save("C:\\Users\\Win10\\Documents\\GitHub\\LYAN_DSMS\\JavaApplication\\src\\main\\resources\\out\\");
+                signedFile.save();
         }
         catch (Exception e) {
 //            System.err.println(e.getMessage());

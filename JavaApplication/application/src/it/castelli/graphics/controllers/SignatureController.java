@@ -1,6 +1,7 @@
 package it.castelli.graphics.controllers;
 
 
+import it.castelli.Paths;
 import it.castelli.graphics.AlertUtil;
 import it.castelli.graphics.PrimaryStage;
 import it.castelli.lyan.Certifier;
@@ -15,7 +16,6 @@ import java.util.ResourceBundle;
 
 public class SignatureController implements Initializable {
 
-    private static final String PATH="C:\\Users\\asus\\Downloads\\";
     @FXML
     private Group createCertificateGroup=new Group();
     @FXML
@@ -26,12 +26,13 @@ public class SignatureController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         createCertificateGroup.setOnMouseClicked(event -> {
             try {
-                Certifier.createCertificate(PrimaryStage.currentUser).save(PATH);
+                Certifier.createCertificate(PrimaryStage.currentUser).save();
                 AlertUtil.showInformationAlert("Certificate","Certificate created","Certificate created successfully");
             } catch (Exception e) {
                 AlertUtil.showErrorAlert("Error", "An error occurred", e.getMessage());
             }
         });
+
         importCertificateGroup.setOnMouseClicked(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(

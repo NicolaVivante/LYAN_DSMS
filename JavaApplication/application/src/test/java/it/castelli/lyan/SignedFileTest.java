@@ -17,7 +17,7 @@ class SignedFileTest {
 		users.remove(pluto.getPublicUser());
 		SourceFile sourceFile = SourceFile.fromFile(new File("C:\\Users\\asus\\Desktop\\diarioDiStage.txt"), users);
 		SignedFile signedFile = new SignedFile(sourceFile, luca, Certifier.createCertificate(luca));
-		signedFile.save("C:\\Users\\asus\\Desktop\\");
+		signedFile.save();
 	}
 
 	@Test
@@ -29,7 +29,7 @@ class SignedFileTest {
 		User user = User.fromFile(new File("C:\\Users\\asus\\Downloads\\Pippo.user.lyan"), "password");
 		SignedFile signedFile = SignedFile.fromFile(new File("C:\\Users\\asus\\Desktop\\diarioDiStage.txt.sig.lyan"),
 				user);
-		Assertions.assertEquals("Luca", signedFile.verifySignature());
+		Assertions.assertEquals("Luca", signedFile.getSignatory());
 	}
 
 	@Test

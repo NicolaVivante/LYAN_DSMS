@@ -1,6 +1,7 @@
 package it.castelli.lyan;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import it.castelli.Paths;
 import it.castelli.encryption.AES;
 import it.castelli.encryption.RSA;
 import it.castelli.encryption.SHA_256;
@@ -90,9 +91,9 @@ public class SourceFile {
         return fileContent;
     }
 
-    public void save(String path) throws Exception {
+    public void save() throws Exception {
         byte[] fileContentBytes = Converter.stringToByteArray(fileContent);
-        String fileName = path + this.fileName;
+        String fileName = Paths.EXTRACTED_FILES_PATH + this.fileName;
         File newFile = new File(fileName);
         if (newFile.createNewFile()) {
             FileOutputStream outputStream = new FileOutputStream(fileName);

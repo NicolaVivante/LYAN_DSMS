@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.net.URL;
 
-public class Certificate extends Application {
+public class CertificateController extends Application {
 
     public static void main(String[] args) {
         launch(args);

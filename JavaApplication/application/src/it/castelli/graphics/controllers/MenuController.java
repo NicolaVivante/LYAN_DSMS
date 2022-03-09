@@ -1,6 +1,7 @@
 package it.castelli.graphics.controllers;
 
 
+import it.castelli.Paths;
 import it.castelli.graphics.AlertUtil;
 import it.castelli.graphics.PrimaryStage;
 import it.castelli.graphics.Signature;
@@ -17,7 +18,6 @@ import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
 
-    private static String PATH = "JavaApplication/src/main/resources/test/";
     @FXML
     private Group verifyFileButton = new Group();
     @FXML
@@ -40,10 +40,11 @@ public class MenuController implements Initializable {
             File selectedFile = fileChooser.showOpenDialog(PrimaryStage.secondStage);
             try {
                 SignedFile signedFile = SignedFile.fromFile(selectedFile, PrimaryStage.currentUser);
-                AlertUtil.showInformationAlert("Signature validation", "Valid signature", "File signed by: " + signedFile.verifySignature());
-                //TODO:button for download file
-                signedFile.saveSourceFile(PATH);
-            } catch (Exception e) {
+                AlertUtil.showInformationAlert("Signature validation", "Valid signature", "File signed by: " + signedFile.getSignatory());
+                //TODO: button to download file
+                signedFile.saveSourceFile();
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -51,7 +52,8 @@ public class MenuController implements Initializable {
             Signature temp = new Signature();
             try {
                 temp.start(PrimaryStage.primaryStage);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         });

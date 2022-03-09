@@ -17,16 +17,17 @@ public class SignatureManager {
         }
     }
 
-    // TODO: change publicKey into certificate
-    public static boolean verifySignature(String content, String signature, PublicKey publicKey) {
-        try {
+    public static boolean verifySignature(String content, String signature, Certifier.Certificate certificate) throws Exception{
             String calculatedDigest = SHA_256.getDigest(content);
-            String receivedDigest = RSA.decrypt(signature, publicKey);
-            return calculatedDigest.equals(receivedDigest);
-        }
-        catch (Exception e) {
-//            e.printStackTrace();
-            return false;
-        }
+            if (!Certifier.isValid(certificate)) throw new Exception("Invalid certificate!");
+            PublicKey publicKey = certificate.getPublicUser().getPublicKey();
+            try {
+                String receivedDigest = RSA.decrypt(signature, publicKey);
+                return calculatedDigest.equals(receivedDigest);
+            } catch (Exception e) {
+                //TODO: remove print
+                e.printStackTrace();
+                return false;
+            }
     }
 }

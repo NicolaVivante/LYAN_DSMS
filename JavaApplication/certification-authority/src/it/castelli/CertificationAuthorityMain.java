@@ -3,14 +3,18 @@ package it.castelli;
 import it.castelli.encryption.RSA;
 import spark.Spark;
 
+import java.io.File;
 import java.security.KeyPair;
 
 public class CertificationAuthorityMain {
 
-    private static final String KEYS_PATH = "C:\\Users\\asus\\IdeaProjects\\LYAN_DSMS\\JavaApplication\\certification-authority\\res\\";
+    private static final String NAME = "certificationAuthority";
 
     public static void main(String[] args) throws Exception {
-        KeyPair keyPair = RSA.fromFile(KEYS_PATH);
+        File publicKeyFile, privateKeyFile;
+        publicKeyFile = new File(Paths.KEYS_PATH + NAME + Extensions.PUBLIC_KEYS_EXTENSION);
+        privateKeyFile = new File(Paths.KEYS_PATH + NAME + Extensions.PRIVATE_KEYS_EXTENSION);
+        KeyPair keyPair = RSA.fromFile(publicKeyFile, privateKeyFile);
 
         Spark.port(1111);
 

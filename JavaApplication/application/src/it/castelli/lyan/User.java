@@ -3,6 +3,8 @@ package it.castelli.lyan;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.castelli.Extensions;
+import it.castelli.Paths;
 import it.castelli.encryption.AES;
 import it.castelli.encryption.RSA;
 import it.castelli.Compressor;
@@ -17,9 +19,6 @@ import java.security.PublicKey;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class User {
-
-    @JsonIgnore
-    private final static String EXTENSION = ".user.lyan";
 
     private String password;
     private String userName;
@@ -78,14 +77,14 @@ public class User {
         return new PublicUser(userName, getPublicKey());
     }
 
-    public void save(String path) throws Exception {
+    public void save() throws Exception {
         // to json and to file in file system
         String jsonObject = new ObjectMapper().writeValueAsString(this);
         String encryptedJsonObject = AES.encrypt(jsonObject, password);
         String compressedJsonObject = Compressor.compress(encryptedJsonObject);
         byte[] compressedJsonObjectBytes = Converter.stringToByteArray(compressedJsonObject);
 
-        String newFileName = path + getUserName() + EXTENSION;
+        String newFileName = Paths.USERS_PATH + getUserName() + Extensions.USERS_EXTENSION;
         File newFile = new File(newFileName);
         if (newFile.createNewFile()) {
             FileOutputStream outputStream = new FileOutputStream(newFileName);

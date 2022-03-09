@@ -5,17 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.castelli.Compressor;
 import it.castelli.Converter;
+import it.castelli.Extensions;
+import it.castelli.Paths;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
-import java.security.PublicKey;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SignedFile {
-
-    @JsonIgnore
-    private final static String EXTENSION = ".sig.lyan";
 
     private Certifier.Certificate certificate;
     private SourceFile sourceFile;
@@ -36,14 +34,14 @@ public class SignedFile {
         return signedFile;
     }
 
-    public void save(String path) throws Exception {
+    public void save() throws Exception {
         // to json and to file in file system
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonObject = objectMapper.writeValueAsString(this);
         String compressedJsonObject = Compressor.compress(jsonObject);
         byte[] compressedJsonObjectBytes = Converter.stringToByteArray(compressedJsonObject);
 
-        String newFileName = path + sourceFileUnlocked.getFileName() + EXTENSION;
+        String newFileName = Paths.SIGNED_FILES_PATH + sourceFileUnlocked.getFileName() + Extensions.SIGNED_FILES_EXTENSION;
         File newFile = new File(newFileName);
         if (newFile.createNewFile()) {
             FileOutputStream outputStream = new FileOutputStream(newFileName);
@@ -64,18 +62,20 @@ public class SignedFile {
         this.certificate = certificate;
     }
 
-    public String verifySignature() throws Exception {
-        String fileContent = sourceFileUnlocked.getFileContent();
-        if (!Certifier.isValid(certificate)) throw new Exception("Invalid certificate!");
-        PublicKey publicKey = certificate.getPublicUser().getPublicKey();
-        if (SignatureManager.verifySignature(fileContent, signature, publicKey)) {
+    public String getSignatory() throws Exception {
+        if (isValid()) {
             return certificate.getPublicUser().getUserName();
         } else {
             throw new Exception("Invalid signature!");
         }
     }
 
-    public void saveSourceFile(String path) throws Exception {
-        sourceFileUnlocked.save(path);
+    public boolean isValid() throws Exception {
+        String fileContent = sourceFileUnlocked.getFileContent();
+        return SignatureManager.verifySignature(fileContent, signature, certificate);
+    }
+
+    public void saveSourceFile() throws Exception {
+        sourceFileUnlocked.save();
     }
 }

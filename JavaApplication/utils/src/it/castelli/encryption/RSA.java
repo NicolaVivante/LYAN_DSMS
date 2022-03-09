@@ -1,6 +1,8 @@
 package it.castelli.encryption;
 
 import it.castelli.Converter;
+import it.castelli.Extensions;
+import it.castelli.Paths;
 
 import javax.crypto.Cipher;
 import java.io.File;
@@ -13,10 +15,8 @@ import java.security.spec.X509EncodedKeySpec;
 public class RSA {
 
     private final static String ALGORITHM = "RSA";
-    private final static String PUBLIC_KEY = "publicKey.key.lyan";
-    private final static String PRIVATE_KEY = "privateKey.key.lyan";
 
-    public static KeyPair generateKeyPair(){
+    public static KeyPair generateKeyPair() {
         try {
             KeyPairGenerator generator = KeyPairGenerator.getInstance(ALGORITHM);
             generator.initialize(2048);
@@ -28,17 +28,17 @@ public class RSA {
         }
     }
 
-    private static byte[] encrypt(byte[] plainTextBytes, Key key)  throws Exception {
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, key);
+    private static byte[] encrypt(byte[] plainTextBytes, Key key) throws Exception {
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, key);
 
-            return cipher.doFinal(plainTextBytes);
+        return cipher.doFinal(plainTextBytes);
     }
 
     private static byte[] decrypt(byte[] cipherTextBytes, Key key) throws Exception {
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            return cipher.doFinal(cipherTextBytes);
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        return cipher.doFinal(cipherTextBytes);
     }
 
     public static String encrypt(String plainText, Key key) throws Exception {
@@ -47,13 +47,13 @@ public class RSA {
         return Converter.byteArrayToString(cipherTextBytes);
     }
 
-    public static String decrypt(String cipherText, Key key)  throws Exception {
+    public static String decrypt(String cipherText, Key key) throws Exception {
         byte[] cipherTextBytes = Converter.stringToByteArray(cipherText);
         byte[] plainTextBytes = decrypt(cipherTextBytes, key);
         return Converter.byteArrayToString(plainTextBytes);
     }
 
-    public static PublicKey publicKeyFromString(String publicKeyString){
+    public static PublicKey publicKeyFromString(String publicKeyString) {
         try {
             byte[] publicKeyBytes = Converter.stringToByteArray(publicKeyString);
             KeyFactory kf = KeyFactory.getInstance(ALGORITHM);
@@ -87,12 +87,12 @@ public class RSA {
         return Converter.byteArrayToString(publicKeyBytes);
     }
 
-    public static void saveKeys(KeyPair keyPair, String path) throws Exception{
+    public static void saveKeys(KeyPair keyPair, String name) throws Exception {
         // save private key
         {
             String privateKeyString = privateKeyToString(keyPair.getPrivate());
             byte[] fileContentBytes = Converter.stringToByteArray(privateKeyString);
-            String fileName = path + PRIVATE_KEY;
+            String fileName = Paths.KEYS_PATH + name + Extensions.PRIVATE_KEYS_EXTENSION;
             File newFile = new File(fileName);
             if (newFile.createNewFile()) {
                 FileOutputStream outputStream = new FileOutputStream(fileName);
@@ -106,7 +106,7 @@ public class RSA {
         {
             String publicKeyString = publicKeyToString(keyPair.getPublic());
             byte[] fileContentBytes = Converter.stringToByteArray(publicKeyString);
-            String fileName = path + PUBLIC_KEY;
+            String fileName = Paths.KEYS_PATH + name + Extensions.PUBLIC_KEYS_EXTENSION;
             File newFile = new File(fileName);
             if (newFile.createNewFile()) {
                 FileOutputStream outputStream = new FileOutputStream(fileName);
@@ -118,24 +118,21 @@ public class RSA {
         }
     }
 
-    public static KeyPair fromFile(String path) throws Exception {
+    public static KeyPair fromFile(File publicKeyFile, File privateKeyFile) throws Exception {
         PublicKey publicKey;
         PrivateKey privateKey;
 
         // get public key
-        {
-            File file = new File(path + PUBLIC_KEY);
-            byte[] fileContentBytes = Files.readAllBytes(file.toPath());
-            String fileContent = Converter.byteArrayToString(fileContentBytes);
-            publicKey = publicKeyFromString(fileContent);
-        }
+        byte[] fileContentBytes = Files.readAllBytes(publicKeyFile.toPath());
+        String fileContent = Converter.byteArrayToString(fileContentBytes);
+        publicKey = publicKeyFromString(fileContent);
 
-        {
-            File file = new File(path + PRIVATE_KEY);
-            byte[] fileContentBytes = Files.readAllBytes(file.toPath());
-            String fileContent = Converter.byteArrayToString(fileContentBytes);
-            privateKey = privateKeyFromString(fileContent);
-        }
+        // get private key
+        fileContentBytes = Files.readAllBytes(privateKeyFile.toPath());
+        fileContent = Converter.byteArrayToString(fileContentBytes);
+        privateKey = privateKeyFromString(fileContent);
+
+        // compose key pair
         return new KeyPair(publicKey, privateKey);
     }
 }
