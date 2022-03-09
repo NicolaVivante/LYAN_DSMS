@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.castelli.graphics.controllers.signatureController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.castelli.graphics.controllers.signatureController">
    <ImageView fitHeight="402.0" fitWidth="600.0" pickOnBounds="true">
       <image>
          <Image url="@../img/background.jpg" />
@@ -25,22 +25,10 @@
                      <Image url="@../img/LYAN_DSMS.png" />
                   </image>
                   <VBox.margin>
-                     <Insets bottom="80.0" />
+                     <Insets bottom="110.0" top="-90.0" />
                   </VBox.margin>
                </ImageView>
                <HBox alignment="CENTER" spacing="10.0">
-                  <children>
-                     <Group fx:id="chooseFileGroup" layoutX="112.0" layoutY="10.0">
-                        <children>
-                           <Button alignment="BOTTOM_CENTER" layoutY="1.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="122.0" styleClass="loginButton" text="CHOOSE FILE" />
-                           <ImageView fitHeight="81.0" fitWidth="101.0" focusTraversable="true" layoutX="21.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                 <Image url="@../img/file-explorer.png" />
-                              </image>
-                           </ImageView>
-                        </children>
-                     </Group>
-                  </children>
                   <VBox.margin>
                      <Insets top="-100.0" />
                   </VBox.margin>

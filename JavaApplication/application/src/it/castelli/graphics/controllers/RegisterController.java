@@ -4,7 +4,6 @@ package it.castelli.graphics.controllers;
 import it.castelli.graphics.AlertUtil;
 import it.castelli.graphics.Login;
 import it.castelli.graphics.PrimaryStage;
-import it.castelli.graphics.Register;
 import it.castelli.lyan.ServerMiddleware;
 import it.castelli.lyan.User;
 import javafx.event.ActionEvent;
@@ -15,9 +14,9 @@ import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class registerController implements Initializable {
+public class RegisterController implements Initializable {
 
-    private static final String USER_PATH = "C:\\Users\\andre\\Downloads\\";
+    private static final String USER_PATH = "C:\\Users\\asus\\Downloads\\";
     @FXML
     private TextField username=new TextField();
     @FXML
@@ -48,6 +47,7 @@ public class registerController implements Initializable {
                 User user=User.createUser(username,password);
                 ServerMiddleware.registerUser(user);
                 user.save(USER_PATH);
+                back();
             } else
                 AlertUtil.showErrorAlert("client error","password not valid","passwords are not equals,please check them ");
 

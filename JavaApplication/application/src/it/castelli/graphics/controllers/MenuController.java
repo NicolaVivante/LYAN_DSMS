@@ -15,7 +15,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class menuController implements Initializable {
+public class MenuController implements Initializable {
 
     private static String PATH = "JavaApplication/src/main/resources/test/";
     @FXML

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.castelli.graphics.controllers.menuController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.castelli.graphics.controllers.MenuController">
    <ImageView fitHeight="402.0" fitWidth="600.0" pickOnBounds="true">
       <Image url="@../img/background.jpg"/>
    </ImageView>
@@ -30,7 +30,7 @@
             </VBox.margin>
             <Group fx:id="signatureFileButton">
                <Button alignment="BOTTOM_CENTER" layoutY="1.0" mnemonicParsing="false" prefHeight="118.0"
-                       prefWidth="123.0" styleClass="loginButton" text="SIGNATURE FILE"/>
+                       prefWidth="123.0" styleClass="loginButton" text="SIGN FILE"/>
                <ImageView fitHeight="92.0" fitWidth="100.0" focusTraversable="true" layoutX="12.0"
                           pickOnBounds="true" preserveRatio="true">
                   <Image url="@../img/signature.png"/>

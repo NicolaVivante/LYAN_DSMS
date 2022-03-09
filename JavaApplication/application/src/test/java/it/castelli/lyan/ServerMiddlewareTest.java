@@ -1,15 +1,15 @@
 package it.castelli.lyan;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ServerMiddlewareTest {
 
 	@Test
 	void userExists() throws Exception{
-		assertTrue(ServerMiddleware.userExists("luca"));
+		Assertions.assertTrue(ServerMiddleware.userExists("luca"));
 	}
 
 	@Test

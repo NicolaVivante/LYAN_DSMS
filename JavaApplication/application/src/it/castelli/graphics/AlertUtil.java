@@ -18,7 +18,7 @@ public class AlertUtil
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
-        alert.show();
+        alert.showAndWait();
     }
 
     /**

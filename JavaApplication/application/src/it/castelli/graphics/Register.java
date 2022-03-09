@@ -17,7 +17,7 @@ public class Register extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL url = new File("JavaApplication/application/res/fxmls/register.fxml").toURI().toURL();
+        URL url = new File("res/fxmls/register.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
 
