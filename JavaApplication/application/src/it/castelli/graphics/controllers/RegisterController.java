@@ -1,8 +1,8 @@
 package it.castelli.graphics.controllers;
 
 import it.castelli.graphics.AlertUtil;
-import it.castelli.graphics.applications.LoginApplication;
-import it.castelli.graphics.applications.MainApplication;
+import it.castelli.graphics.Scenes;
+import it.castelli.graphics.MainApplication;
 import it.castelli.lyan.ServerMiddleware;
 import it.castelli.lyan.User;
 import javafx.event.ActionEvent;
@@ -55,6 +55,6 @@ public class RegisterController implements Initializable {
     @FXML
     public void back(){
         MainApplication.secondaryStage.close();
-        new LoginApplication().start(MainApplication.primaryStage);
+        MainApplication.sceneWrapper(Scenes.LOGIN,MainApplication.primaryStage);
     }
 }

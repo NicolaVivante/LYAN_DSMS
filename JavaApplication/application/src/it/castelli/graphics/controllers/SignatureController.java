@@ -2,7 +2,7 @@ package it.castelli.graphics.controllers;
 
 
 import it.castelli.graphics.AlertUtil;
-import it.castelli.graphics.applications.MainApplication;
+import it.castelli.graphics.MainApplication;
 import it.castelli.lyan.Certifier;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

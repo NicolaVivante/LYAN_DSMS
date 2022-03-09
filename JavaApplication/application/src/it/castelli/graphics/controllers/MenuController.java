@@ -2,8 +2,8 @@ package it.castelli.graphics.controllers;
 
 
 import it.castelli.graphics.AlertUtil;
-import it.castelli.graphics.applications.CertificateApplication;
-import it.castelli.graphics.applications.MainApplication;
+import it.castelli.graphics.Scenes;
+import it.castelli.graphics.MainApplication;
 import it.castelli.lyan.SignedFile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,13 +48,7 @@ public class MenuController implements Initializable {
             }
         });
         signatureFileButton.setOnMouseClicked(event -> {
-            CertificateApplication temp = new CertificateApplication();
-            try {
-                temp.start(MainApplication.primaryStage);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            MainApplication.sceneWrapper(Scenes.CERTIFICATE,MainApplication.primaryStage);
         });
 
     }

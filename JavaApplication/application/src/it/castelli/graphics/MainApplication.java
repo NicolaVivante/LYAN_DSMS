@@ -1,5 +1,6 @@
-package it.castelli.graphics.applications;
+package it.castelli.graphics;
 
+import it.castelli.graphics.Scenes;
 import it.castelli.lyan.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,17 +16,18 @@ public class MainApplication extends Application {
     public static Stage secondaryStage =new Stage();
     public static User currentUser;
 
+
     @Override
     public void start(Stage primaryStage){
-        new LoginApplication().start(primaryStage);
+        sceneWrapper(Scenes.LOGIN,primaryStage);
     }
-    public static void sceneWrapper(String path){
+
+    public static void sceneWrapper(Scenes scene, Stage stage){
         try {
-            URL url = new File(path).toURI().toURL();
+            URL url = new File(scene.getPath()).toURI().toURL();
             Parent root = FXMLLoader.load(url);
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+            stage.setScene(new Scene(root));
+            stage.show();
         }
         catch (Exception e) {
             e.printStackTrace();

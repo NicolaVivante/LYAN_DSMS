@@ -2,9 +2,8 @@ package it.castelli.graphics.controllers;
 
 
 import it.castelli.graphics.AlertUtil;
-import it.castelli.graphics.applications.MenuApplication;
-import it.castelli.graphics.applications.MainApplication;
-import it.castelli.graphics.applications.RegisterApplication;
+import it.castelli.graphics.Scenes;
+import it.castelli.graphics.MainApplication;
 import it.castelli.lyan.User;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -48,7 +47,7 @@ public class LoginController implements Initializable {
                         password = result.get();
                         MainApplication.currentUser = User.fromFile(selectedFile, password);
                         MainApplication.secondaryStage.close();
-                        new MenuApplication().start(MainApplication.primaryStage);
+                        MainApplication.sceneWrapper(Scenes.MENU,MainApplication.primaryStage);
                     } else continuePassword = false;
                 }
                 catch (Exception e) {
@@ -59,10 +58,10 @@ public class LoginController implements Initializable {
 
         });
         newUserButton.setOnMouseClicked(event -> {
-                new RegisterApplication().start(MainApplication.secondaryStage);
+                MainApplication.sceneWrapper(Scenes.REGISTER,MainApplication.primaryStage);
         });
         enterServer.setOnMouseClicked(event -> {
-                new MenuApplication().start(MainApplication.primaryStage);
+            MainApplication.sceneWrapper(Scenes.MENU,MainApplication.primaryStage);
         });
 
     }
