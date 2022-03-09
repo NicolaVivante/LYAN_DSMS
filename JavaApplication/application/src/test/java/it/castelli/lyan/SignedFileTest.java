@@ -15,7 +15,7 @@ class SignedFileTest {
 		User pluto = User.fromFile(new File("C:\\Users\\asus\\Downloads\\Pluto.user.lyan"), "drowssap");
 		ArrayList<PublicUser> users = new ArrayList<>(List.of(ServerMiddleware.getAllUsers()));
 		users.remove(pluto.getPublicUser());
-		SourceFile sourceFile = SourceFile.fromFile(new File("C:\\Users\\asus\\Desktop\\diarioDiStage.txt"), users);
+		SourceFile sourceFile = SourceFile.createSourceFile(new File("C:\\Users\\asus\\Desktop\\diarioDiStage.txt"), users);
 		SignedFile signedFile = new SignedFile(sourceFile, luca, Certifier.createCertificate(luca));
 		signedFile.save();
 	}

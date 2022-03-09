@@ -25,6 +25,14 @@ public class User {
     private String publicKeyString;
     private String privateKeyString;
 
+    /**
+     * Retrieve the user from a file and the corresponding password
+     *
+     * @param userFile The user file
+     * @param password The password to unlock the user file
+     * @return The user
+     * @throws Exception An exception
+     */
     public static User fromFile(File userFile, String password) throws Exception {
         byte [] userBytes = Files.readAllBytes(userFile.toPath());
         String compressedJsonObject = Converter.byteArrayToString(userBytes);
@@ -37,9 +45,15 @@ public class User {
         }
     }
 
+    /**
+     * Generate a new User with given information
+     *
+     * @param userName The username
+     * @param password The user password
+     * @return A new user
+     */
     public static User createUser(String userName, String password) {
-        KeyPair newKeyPair = RSA.generateKeyPair();
-        return new User(userName, password, newKeyPair);
+        return new User(userName, password, RSA.generateKeyPair());
     }
 
     /**
@@ -47,6 +61,13 @@ public class User {
      */
     private User() {}
 
+    /**
+     * Internal constructor
+     *
+     * @param userName The username
+     * @param password The user password
+     * @param keyPair The user key pair
+     */
     private User(String userName, String password, KeyPair keyPair) {
         this.userName = userName;
         this.password = password;
@@ -54,29 +75,49 @@ public class User {
         publicKeyString = RSA.publicKeyToString(keyPair.getPublic());
     }
 
+    /**
+     * @return The username
+     */
     public String getUserName() {
         return userName;
     }
 
+    /**
+     * @return The user password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * @return The user public key
+     */
     @JsonIgnore
     public PublicKey getPublicKey() {
         return RSA.publicKeyFromString(publicKeyString);
     }
 
+    /**
+     * @return The user private key
+     */
     @JsonIgnore
     public PrivateKey getPrivateKey() {
         return RSA.privateKeyFromString(privateKeyString);
     }
 
+    /**
+     * @return The public user generated from this user
+     */
     @JsonIgnore
     public PublicUser getPublicUser() {
         return new PublicUser(userName, getPublicKey());
     }
 
+    /**
+     * Save the user into a file
+     *
+     * @throws Exception An exception
+     */
     public void save() throws Exception {
         // to json and to file in file system
         String jsonObject = new ObjectMapper().writeValueAsString(this);

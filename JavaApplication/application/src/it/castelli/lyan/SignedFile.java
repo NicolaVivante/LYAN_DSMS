@@ -30,7 +30,7 @@ public class SignedFile {
         String jsonObject = Compressor.decompress(compressedJsonObject);
 
         SignedFile signedFile = new ObjectMapper().readValue(jsonObject, SignedFile.class);
-        signedFile.sourceFileUnlocked = signedFile.sourceFile.decrypt(user);
+        signedFile.sourceFileUnlocked = SourceFile.decrypt(signedFile.sourceFile, user);
         return signedFile;
     }
 
@@ -54,7 +54,7 @@ public class SignedFile {
 
     public SignedFile(SourceFile sourceFile, User user, Certifier.Certificate certificate) throws Exception {
         this.sourceFile = sourceFile;
-        this.sourceFileUnlocked = sourceFile.decrypt(user);
+        this.sourceFileUnlocked = SourceFile.decrypt(sourceFile, user);
         String fileContent = sourceFileUnlocked.getFileContent();
         if (!Certifier.isValid(certificate)) throw new Exception("Invalid certificate!");
         if (!certificate.getPublicUser().equals(user.getPublicUser())) throw new Exception("Certificate user and given user don't correspond!");
@@ -76,6 +76,6 @@ public class SignedFile {
     }
 
     public void saveSourceFile() throws Exception {
-        sourceFileUnlocked.save();
+        sourceFileUnlocked.saveFile();
     }
 }

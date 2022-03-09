@@ -85,6 +85,13 @@ public class ServerMiddleware {
         }
     }
 
+    /**
+     * Encrypt the given content with certification authority public key
+     *
+     * @param content The content to encrypt
+     * @return The encrypted content
+     * @throws Exception An exception
+     */
     public static String encrypt(String content) throws Exception {
         try {
             return Unirest.post(CERTIFICATION_AUTHORITY_SERVER_ADDRESS + "encrypt").body(content).asString().getBody();
@@ -94,6 +101,13 @@ public class ServerMiddleware {
         }
     }
 
+    /**
+     * Decrypt the given content with certification authority private key
+     *
+     * @param content The content to decrypt
+     * @return The decrypted content
+     * @throws Exception An exception
+     */
     public static String decrypt(String content) throws Exception{
         try {
             return Unirest.post(CERTIFICATION_AUTHORITY_SERVER_ADDRESS + "decrypt").body(content).asString().getBody();
