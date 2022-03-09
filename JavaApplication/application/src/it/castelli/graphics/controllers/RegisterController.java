@@ -44,7 +44,7 @@ public class RegisterController implements Initializable {
             User user = User.createUser(username, password);
             ServerMiddleware.registerUser(user);
             user.save();
-            AlertUtil.showInformationAlert("User", "User created", "User created successfully");
+            AlertUtil.showInformationAlert("Success", "User created", "User created successfully");
             back();
         } else {
             throw new Exception("Password confirmation differs from original password");

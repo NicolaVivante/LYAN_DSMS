@@ -27,7 +27,6 @@ public class MenuController implements Initializable {
     @FXML
     private Label username = new Label("");
 
-    //Run
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         username.setText(MainApplication.currentUser.getUserName());
@@ -43,6 +42,7 @@ public class MenuController implements Initializable {
         verifyFileButton.setOnMouseClicked(event -> {
             MainApplication.sceneWrapper(Scenes.DOWNLOAD_FILE);
         });
+
         signatureFileButton.setOnMouseClicked(event -> {
             MainApplication.sceneWrapper(Scenes.SIGNATURE);
         });

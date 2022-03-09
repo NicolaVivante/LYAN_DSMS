@@ -23,14 +23,14 @@ public class MainApplication extends Application {
         sceneWrapper(Scenes.LOGIN);
     }
 
-    public static void sceneWrapper(Scenes scene, Stage stage) {
+    public static void sceneWrapper(Scenes scene) {
         try {
             URL url = new File(scene.getPath()).toURI().toURL();
             Parent root = FXMLLoader.load(url);
-            stage.setScene(new Scene(root));
-            stage.setResizable(false);
-            stage.setTitle("LYAN_DSMS");
-            stage.show();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setResizable(false);
+            primaryStage.setTitle("LYAN_DSMS");
+            primaryStage.show();
         }
         catch (Exception e) {
             e.printStackTrace();

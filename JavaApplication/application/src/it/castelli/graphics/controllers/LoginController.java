@@ -62,7 +62,7 @@ public class LoginController implements Initializable {
 
         });
         newUserButton.setOnMouseClicked(event -> {
-                MainApplication.sceneWrapper(Scenes.REGISTER,MainApplication.primaryStage);
+                MainApplication.sceneWrapper(Scenes.REGISTER);
         });
 
     }

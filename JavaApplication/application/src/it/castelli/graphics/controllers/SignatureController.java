@@ -65,6 +65,51 @@ public class SignatureController implements Initializable {
                 AlertUtil.showErrorAlert("Error", "An error occurred", e.getMessage());
             }
         });
+
+        signFile.setOnAction(event -> {
+            if (selectedFile == null || certificateFile == null) {
+                AlertUtil.showErrorAlert("Error", "An error occurred", "The file or the certificate are null, please import them");
+            } else {
+                SourceFile sourceFile;
+                try {
+                    if (encrypted.isSelected()) {
+                        ArrayList<PublicUser> selectedUsers = new ArrayList<>();
+                        selectedUsers.add(MainApplication.currentUser.getPublicUser());
+                        for (Object item : userListView.getItems()) {
+                            CheckBox checkBox = (CheckBox) item;
+                            if (checkBox.isSelected()) {
+                                selectedUsers.add(usersByName.get(checkBox.getText()));
+                            }
+                        }
+                        sourceFile = SourceFile.createSourceFile(selectedFile, selectedUsers);
+                    } else {
+                        sourceFile = SourceFile.createSourceFile(selectedFile);
+                    }
+
+                    Certificate certificate = Certifier.fromFile(certificateFile);
+                    SignedFile signedFile = new SignedFile(sourceFile, MainApplication.currentUser, certificate);
+                    signedFile.save();
+                    AlertUtil.showInformationAlert("Success", "Signed file", "File signed successfully");
+                    MainApplication.sceneWrapper(Scenes.MENU);
+
+                } catch (Exception e) {
+                    AlertUtil.showErrorAlert("Error", "An error occurred", e.getMessage());
+                }
+            }
+        });
+
+        try {
+            usersByName = new HashMap<>();
+            PublicUser[] allUsers = ServerMiddleware.getAllUsers();
+            for (PublicUser user : allUsers) {
+                if (user.equals(MainApplication.currentUser.getPublicUser())) continue;
+                usersByName.put(user.getUserName(), user);
+                userListView.getItems().add(new CheckBox(user.getUserName()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void back(ActionEvent actionEvent) {

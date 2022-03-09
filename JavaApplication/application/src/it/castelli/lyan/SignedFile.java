@@ -62,6 +62,7 @@ public class SignedFile {
         this.certificate = certificate;
     }
 
+    @JsonIgnore
     public String getSignatory() throws Exception {
         if (isValid()) {
             return certificate.getPublicUser().getUserName();
@@ -70,6 +71,7 @@ public class SignedFile {
         }
     }
 
+    @JsonIgnore
     public boolean isValid() throws Exception {
         String fileContent = sourceFileUnlocked.getFileContent();
         return SignatureManager.verifySignature(fileContent, signature, certificate);

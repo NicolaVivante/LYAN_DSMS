@@ -5,7 +5,7 @@ public enum Scenes {
     MENU("menu"),
     REGISTER("register"),
     SIGNATURE("signature"),
-    CERTIFICATE("certificate");
+    DOWNLOAD_FILE("downloadFile");
 
     private final String fxmlName;
     private final String FXML_PATH = "./res/fxmls/";
