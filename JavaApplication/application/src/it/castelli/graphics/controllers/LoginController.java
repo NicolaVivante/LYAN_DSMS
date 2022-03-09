@@ -25,8 +25,6 @@ public class LoginController implements Initializable {
     @FXML
     private Group newUserButton = new Group();
     @FXML
-    private Button enterServer = new Button();
-    @FXML
     private Group chooseFileButton = new Group();
 
     //Run
@@ -41,31 +39,30 @@ public class LoginController implements Initializable {
             );
             File selectedFile = fileChooser.showOpenDialog(MainApplication.secondaryStage);
 
-            boolean continuePassword;
-            do {
-                try {
-                    continuePassword = false;
-                    Optional<String> result = AlertUtil.showTextInputDialogue("", "Password", "Type password",
-                            "The file is not accessible if not through a password");
-                    if (result.isPresent()) {
-                        password = result.get();
-                        MainApplication.currentUser = User.fromFile(selectedFile, password);
-                        MainApplication.secondaryStage.close();
-                        MainApplication.sceneWrapper(Scenes.MENU,MainApplication.primaryStage);
+            if (selectedFile != null) {
+                boolean continuePassword;
+                do {
+                    try {
+                        continuePassword=false;
+                        Optional<String> result = AlertUtil.showTextInputDialogue("", "Password", "Type password",
+                                "The file is not accessible if not through a password");
+                        if (result.isPresent()) {
+                            password = result.get();
+                            MainApplication.currentUser = User.fromFile(selectedFile, password);
+                            MainApplication.secondaryStage.close();
+                            MainApplication.sceneWrapper(Scenes.MENU);
+                        }
                     }
-                }
-                catch (Exception e) {
-                    AlertUtil.showErrorAlert("Error", "An error occurred", e.getMessage());
-                    continuePassword = true;
-                }
-            } while (continuePassword);
+                    catch (Exception e) {
+                        AlertUtil.showErrorAlert("Error", "An error occurred", e.getMessage());
+                        continuePassword = true;
+                    }
+                } while (continuePassword);
+            }
 
         });
         newUserButton.setOnMouseClicked(event -> {
                 MainApplication.sceneWrapper(Scenes.REGISTER,MainApplication.primaryStage);
-        });
-        enterServer.setOnMouseClicked(event -> {
-            MainApplication.sceneWrapper(Scenes.MENU,MainApplication.primaryStage);
         });
 
     }

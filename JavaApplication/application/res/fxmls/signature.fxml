@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.castelli.graphics.controllers.SignatureController">
+<?import javafx.scene.control.Label?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.castelli.graphics.controllers.SignatureController">
    <ImageView fitHeight="402.0" fitWidth="600.0" pickOnBounds="true">
       <image>
          <Image url="@../img/background.jpg" />
@@ -14,38 +20,37 @@
    </ImageView>
    <Group layoutX="92.0" layoutY="2.0">
       <children>
-         <Button alignment="CENTER" contentDisplay="CENTER" layoutX="40.0" layoutY="100.0" mnemonicParsing="false" opacity="0.91" prefHeight="270.0" prefWidth="343.0" styleClass="background" />
-         <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="419.0" spacing="30.0">
+         <Button alignment="CENTER" contentDisplay="CENTER" layoutX="-7.0" layoutY="73.0" mnemonicParsing="false" opacity="0.91" prefHeight="322.0" prefWidth="436.0" styleClass="background" />
+         <VBox alignment="CENTER" layoutY="43.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="356.0" prefWidth="419.0">
             <children>
-               <ImageView fitHeight="78.0" fitWidth="395.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../img/LYAN_DSMS.png" />
-                  </image>
-                  <VBox.margin>
-                     <Insets bottom="110.0" top="-90.0" />
-                  </VBox.margin>
-               </ImageView>
                <HBox alignment="CENTER" spacing="10.0">
                   <VBox.margin>
                      <Insets top="-100.0" />
                   </VBox.margin>
-               </HBox>
-               <HBox alignment="CENTER" layoutX="10.0" layoutY="209.0" spacing="50.0">
                   <children>
-                     <Group fx:id="createCertificateGroup">
+                     <ImageView fitHeight="78.0" fitWidth="395.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../img/LYAN_DSMS.png" />
+                        </image>
+                     </ImageView>
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER" layoutX="10.0" layoutY="209.0" prefHeight="83.0" prefWidth="419.0" spacing="50.0">
+                  <children>
+                     <Group fx:id="chooseFileGroup" layoutX="112.0" layoutY="10.0">
                         <children>
-                           <Button alignment="BOTTOM_CENTER" layoutY="1.0" mnemonicParsing="false" prefHeight="118.0" prefWidth="141.0" styleClass="loginButton" text="CREATE CERTIFICATE" />
-                           <ImageView fitHeight="86.0" fitWidth="70.0" focusTraversable="true" layoutX="36.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                           <Button alignment="BOTTOM_CENTER" layoutX="-14.0" layoutY="2.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="140.0" styleClass="loginButton" text="CHOOSE FILE" />
+                           <ImageView fitHeight="67.0" fitWidth="35.0" focusTraversable="true" layoutX="39.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                               <image>
-                                 <Image url="@../img/certificate.png" />
+                                 <Image url="@../img/file-explorer.png" />
                               </image>
                            </ImageView>
                         </children>
                      </Group>
-                     <Group fx:id="importCertificateGroup" layoutX="112.0" layoutY="10.0">
+                     <Group fx:id="importCertificateGroup" layoutX="164.0" layoutY="8.0">
                         <children>
-                           <Button alignment="BOTTOM_CENTER" layoutY="1.0" mnemonicParsing="false" prefHeight="116.0" prefWidth="136.0" styleClass="loginButton" text="IMPORT CERTIFICATE" />
-                           <ImageView fitHeight="87.0" fitWidth="93.0" focusTraversable="true" layoutX="25.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                           <Button alignment="BOTTOM_CENTER" layoutX="-14.0" layoutY="2.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="140.0" styleClass="loginButton" text="IMPORT CERTIFICATE" />
+                           <ImageView fitHeight="67.0" fitWidth="35.0" focusTraversable="true" layoutX="39.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                               <image>
                                  <Image url="@../img/import.png" />
                               </image>
@@ -53,10 +58,36 @@
                         </children>
                      </Group>
                   </children>
+                  <VBox.margin>
+                     <Insets top="10.0" />
+                  </VBox.margin>
                </HBox>
-               <CheckBox mnemonicParsing="false" text="CheckBox" />
+               <HBox alignment="CENTER">
+                  <children>
+                     <CheckBox fx:id="encrypted" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="encrypt file" textFill="WHITE" />
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER" layoutX="10.0" layoutY="70.0" prefHeight="164.0" prefWidth="419.0">
+                  <children>
+                     <ListView fx:id="userListView" fixedCellSize="0.0" layoutY="50.0" prefHeight="148.0" prefWidth="419.0">
+                        <HBox.margin>
+                           <Insets top="20.0" />
+                        </HBox.margin>
+                     </ListView>
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER" layoutX="10.0" layoutY="165.0" prefHeight="42.0" prefWidth="419.0">
+                  <children>
+                     <Button fx:id="signFile" mnemonicParsing="false" styleClass="loginButton" text="SIGN FILE" />
+                  </children>
+               </HBox>
             </children>
+            <padding>
+               <Insets top="50.0" />
+            </padding>
          </VBox>
       </children>
    </Group>
+   <Button layoutY="2.0" mnemonicParsing="false" onAction="#back" styleClass="loginButton" text="&lt;" />
+   <Label fx:id="username" alignment="CENTER" layoutX="508.0" layoutY="6.0" prefHeight="17.0" prefWidth="84.0" styleClass="loginButton" text="Label" textFill="WHITE" textOverrun="CLIP" />
 </AnchorPane>

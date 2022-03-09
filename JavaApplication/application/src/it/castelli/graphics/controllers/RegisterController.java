@@ -54,6 +54,6 @@ public class RegisterController implements Initializable {
     @FXML
     public void back() {
         MainApplication.secondaryStage.close();
-        MainApplication.sceneWrapper(Scenes.LOGIN, MainApplication.primaryStage);
+        MainApplication.sceneWrapper(Scenes.LOGIN);
     }
 }
