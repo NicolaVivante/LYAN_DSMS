@@ -48,9 +48,6 @@ public class MenuController implements Initializable {
             }
         });
         signatureFileButton.setOnMouseClicked(event -> {
-            FileChooser fileChooser = new FileChooser();
-            File selectedFile = fileChooser.showOpenDialog(PrimaryStage.secondStage);
-            System.out.println(selectedFile.getName());
             Signature temp = new Signature();
             try {
                 temp.start(PrimaryStage.primaryStage);

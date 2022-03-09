@@ -47,6 +47,7 @@ public class RegisterController implements Initializable {
                 User user=User.createUser(username,password);
                 ServerMiddleware.registerUser(user);
                 user.save(USER_PATH);
+                AlertUtil.showInformationAlert("User","User created","User created successfully");
                 back();
             } else
                 AlertUtil.showErrorAlert("client error","password not valid","passwords are not equals,please check them ");
