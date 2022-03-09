@@ -17,13 +17,22 @@ import java.security.KeyPair;
 
 public class Certifier {
 
+    /**
+     * @param user The user to certificate
+     * @return The certificate of the given user
+     * @throws Exception An exception
+     */
     public static Certificate createCertificate(User user) throws Exception {
         String publicUserString = user.getPublicUser().toString();
         String signature = ServerMiddleware.encrypt(SHA_256.getDigest(publicUserString));
-//        String signature = SignatureManager.getSignature(publicUserString, keyPair.getPrivate());
         return new Certificate(user.getPublicUser(), signature);
     }
 
+    /**
+     * @param file The certificate file
+     * @return The extracted certificate
+     * @throws Exception An exception
+     */
     public static Certificate fromFile(File file) throws Exception {
         byte[] fileContentBytes = Files.readAllBytes(file.toPath());
         String compressedContent = Converter.byteArrayToString(fileContentBytes);
@@ -31,13 +40,17 @@ public class Certifier {
         return new ObjectMapper().readValue(content, Certificate.class);
     }
 
+    /**
+     * @param certificate The certificate to verify
+     * @return Whether the certificate is valid
+     * @throws Exception An exception
+     */
     public static boolean isValid(Certificate certificate) throws Exception {
         String content = certificate.getPublicUser().toString();
         String signature = certificate.getCertifierSignature();
         String calculatedDigest = SHA_256.getDigest(content);
         String certificateDigest = ServerMiddleware.decrypt(signature);
         return calculatedDigest.equals(certificateDigest);
-//        return SignatureManager.verifySignature(content, signature, keyPair.getPublic());
     }
 
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -48,19 +61,34 @@ public class Certifier {
 
         private Certificate() {}
 
+        /**
+         * @param publicUser The user to certificate
+         * @param certifierSignature The certification authority signature
+         */
         private Certificate(PublicUser publicUser, String certifierSignature) {
             this.publicUser = publicUser;
             this.certifierSignature = certifierSignature;
         }
 
+        /**
+         * @return The certificated public user
+         */
         public PublicUser getPublicUser() {
             return publicUser;
         }
 
+        /**
+         * @return The sign of the certification authority
+         */
         public String getCertifierSignature() {
             return certifierSignature;
         }
 
+        /**
+         * Save the certificate in a certificate file
+         *
+         * @throws Exception An exception
+         */
         public void save() throws Exception {
             String certificateString = new ObjectMapper().writeValueAsString(this);
             String compressedString = Compressor.compress(certificateString);

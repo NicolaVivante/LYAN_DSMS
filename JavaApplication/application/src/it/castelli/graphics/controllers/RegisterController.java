@@ -26,15 +26,14 @@ public class RegisterController implements Initializable {
     public void register(ActionEvent event) {
         try {
             check(passwordTextField.getText(), confirmPasswordTextField.getText(), username.getText());
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             AlertUtil.showErrorAlert("Error", "An error occurred", e.getMessage());
         }
     }
 
-    //Run
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
     }
 
     private void check(String password, String password1, String username) throws Exception {
@@ -53,8 +52,8 @@ public class RegisterController implements Initializable {
     }
 
     @FXML
-    public void back(){
+    public void back() {
         MainApplication.secondaryStage.close();
-        MainApplication.sceneWrapper(Scenes.LOGIN,MainApplication.primaryStage);
+        MainApplication.sceneWrapper(Scenes.LOGIN, MainApplication.primaryStage);
     }
 }

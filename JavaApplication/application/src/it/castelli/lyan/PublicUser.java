@@ -19,12 +19,21 @@ public class PublicUser {
         publicKeyString = RSA.publicKeyToString(publicKey);
     }
 
+    /**
+     * Constructor for ObjectMapper
+     */
     private PublicUser() {}
 
+    /**
+     * @return The username
+     */
     public String getUserName() {
         return userName;
     }
 
+    /**
+     * @return The public key
+     */
     @JsonIgnore
     public PublicKey getPublicKey() {
         return RSA.publicKeyFromString(publicKeyString);

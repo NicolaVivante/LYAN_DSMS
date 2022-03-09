@@ -83,13 +83,6 @@ public class User {
     }
 
     /**
-     * @return The user password
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
      * @return The user public key
      */
     @JsonIgnore

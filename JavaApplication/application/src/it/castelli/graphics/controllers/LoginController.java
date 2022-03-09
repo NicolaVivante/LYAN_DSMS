@@ -41,9 +41,10 @@ public class LoginController implements Initializable {
             );
             File selectedFile = fileChooser.showOpenDialog(MainApplication.secondaryStage);
 
-            boolean continuePassword = false;
+            boolean continuePassword;
             do {
                 try {
+                    continuePassword = false;
                     Optional<String> result = AlertUtil.showTextInputDialogue("", "Password", "Type password",
                             "The file is not accessible if not through a password");
                     if (result.isPresent()) {
@@ -51,7 +52,7 @@ public class LoginController implements Initializable {
                         MainApplication.currentUser = User.fromFile(selectedFile, password);
                         MainApplication.secondaryStage.close();
                         MainApplication.sceneWrapper(Scenes.MENU,MainApplication.primaryStage);
-                    } else continuePassword = false;
+                    }
                 }
                 catch (Exception e) {
                     AlertUtil.showErrorAlert("Error", "An error occurred", e.getMessage());
