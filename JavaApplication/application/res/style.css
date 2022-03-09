@@ -6,6 +6,15 @@
     -fx-text-fill: #ffffff;
     -fx-prompt-text-fill: #ffffff;
 }
+.presentFile {
+    -fx-background-color: #0b831f;
+    -fx-text-fill: #ffffff;
+    -fx-prompt-text-fill: #ffffff;
+}
+.list-view .list-cell{
+    -fx-background-color: #82c6ff;
+    -fx-text-fill: white;
+}
 .passwordTextField {
     -fx-background-color: #ffffff;
     -fx-text-fill: #000000;

@@ -39,6 +39,10 @@ public class SignatureController implements Initializable {
     @FXML
     private Button signFile;
     @FXML
+    private Button backgroundChooseFile;
+    @FXML
+    private Button backgroundImportCertificate;
+    @FXML
     private ListView userListView;
     @FXML
     private Label username = new Label("");
@@ -51,6 +55,7 @@ public class SignatureController implements Initializable {
 
             FileChooser fileChooser = new FileChooser();
             selectedFile = fileChooser.showOpenDialog(MainApplication.secondaryStage);
+            backgroundChooseFile.getStyleClass().add("presentFile");
         });
 
         importCertificateGroup.setOnMouseClicked(event -> {
@@ -61,6 +66,7 @@ public class SignatureController implements Initializable {
             );
             try {
                 certificateFile = fileChooser.showOpenDialog(MainApplication.secondaryStage);
+                backgroundImportCertificate.getStyleClass().add("presentFile");
             } catch (Exception e) {
                 AlertUtil.showErrorAlert("Error", "An error occurred", e.getMessage());
             }
