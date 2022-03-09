@@ -19,7 +19,7 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage primaryStage){
-        sceneWrapper(Scenes.LOGIN,primaryStage);
+        sceneWrapper(Scenes.LOGIN, MainApplication.primaryStage);
     }
 
     public static void sceneWrapper(Scenes scene, Stage stage){
@@ -27,6 +27,8 @@ public class MainApplication extends Application {
             URL url = new File(scene.getPath()).toURI().toURL();
             Parent root = FXMLLoader.load(url);
             stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.setTitle("LYAN_DSMS");
             stage.show();
         }
         catch (Exception e) {

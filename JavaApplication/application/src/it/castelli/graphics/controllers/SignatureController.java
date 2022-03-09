@@ -1,6 +1,8 @@
 package it.castelli.graphics.controllers;
 
 
+import it.castelli.Extensions;
+import it.castelli.Paths;
 import it.castelli.graphics.AlertUtil;
 import it.castelli.graphics.MainApplication;
 import it.castelli.lyan.Certifier;
@@ -34,8 +36,9 @@ public class SignatureController implements Initializable {
 
         importCertificateGroup.setOnMouseClicked(event -> {
             FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialDirectory( new File(Paths.CERTIFICATES_PATH));
             fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("certificate File", "*.cert.lyan")
+                    new FileChooser.ExtensionFilter("certificate File", "*"+ Extensions.CERTIFICATES_EXTENSION)
             );
             File selectedFile = fileChooser.showOpenDialog(MainApplication.secondaryStage);
             try {

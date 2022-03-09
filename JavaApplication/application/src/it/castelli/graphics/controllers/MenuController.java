@@ -1,6 +1,8 @@
 package it.castelli.graphics.controllers;
 
 
+import it.castelli.Extensions;
+import it.castelli.Paths;
 import it.castelli.graphics.AlertUtil;
 import it.castelli.graphics.Scenes;
 import it.castelli.graphics.MainApplication;
@@ -33,8 +35,9 @@ public class MenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         verifyFileButton.setOnMouseClicked(event -> {
             FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialDirectory( new File(Paths.SIGNED_FILES_PATH));
             fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("user Files", "*.sig.lyan")
+                    new FileChooser.ExtensionFilter("user Files", "*"+ Extensions.SIGNED_FILES_EXTENSION)
             );
             File selectedFile = fileChooser.showOpenDialog(MainApplication.secondaryStage);
             try {

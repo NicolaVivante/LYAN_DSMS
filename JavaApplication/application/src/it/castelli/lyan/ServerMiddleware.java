@@ -10,7 +10,7 @@ import java.net.ConnectException;
 
 public class ServerMiddleware {
     public static final String DB_SERVER_ADDRESS = "http://localhost:5555/";
-    public static final String CERTIFICATION_AUTHORITY_SERVER_ADDRESS = "http://localhost:1111/";
+    public static final String CERTIFICATION_AUTHORITY_SERVER_ADDRESS = "http://localhost:11111/";
 
     /**
      * Is the user with the specified userName registered in the db?

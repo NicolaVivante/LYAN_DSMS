@@ -16,7 +16,7 @@ public class CertificationAuthorityMain {
         privateKeyFile = new File(Paths.KEYS_PATH + NAME + Extensions.PRIVATE_KEYS_EXTENSION);
         KeyPair keyPair = RSA.fromFile(publicKeyFile, privateKeyFile);
 
-        Spark.port(1111);
+        Spark.port(11111);
 
         Spark.post("encrypt", ((request, response) -> RSA.encrypt(request.body().toString(), keyPair.getPrivate())));
 

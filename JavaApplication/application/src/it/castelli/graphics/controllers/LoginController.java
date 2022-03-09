@@ -1,6 +1,8 @@
 package it.castelli.graphics.controllers;
 
 
+import it.castelli.Extensions;
+import it.castelli.Paths;
 import it.castelli.graphics.AlertUtil;
 import it.castelli.graphics.Scenes;
 import it.castelli.graphics.MainApplication;
@@ -33,8 +35,9 @@ public class LoginController implements Initializable {
         chooseFileButton.setOnMouseClicked(event -> {
 
             FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialDirectory( new File(Paths.USERS_PATH));
             fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("user Files", "*.user.lyan")
+                    new FileChooser.ExtensionFilter("user Files", "*"+ Extensions.USERS_EXTENSION)
             );
             File selectedFile = fileChooser.showOpenDialog(MainApplication.secondaryStage);
 
