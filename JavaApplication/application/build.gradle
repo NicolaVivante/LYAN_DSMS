@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'application'
+    id 'applications'
     id 'org.openjfx.javafxplugin' version '0.0.9'
 }
 
@@ -30,7 +30,7 @@ test {
 }
 
 application {
-    mainClass = "it.castelli.graphics.Login"
+    mainClass = "it.castelli.graphics.applications.MainApplication"
 }
 
 sourceSets {

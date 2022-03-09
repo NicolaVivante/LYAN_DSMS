@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.castelli.graphics.controllers.CertificateController">
+   <ImageView fitHeight="402.0" fitWidth="600.0" pickOnBounds="true">
+      <image>
+         <Image url="@../img/background.jpg" />
+      </image>
+   </ImageView>
+   <Group layoutX="92.0" layoutY="2.0">
+      <children>
+         <Button alignment="CENTER" contentDisplay="CENTER" layoutX="40.0" layoutY="100.0" mnemonicParsing="false" opacity="0.91" prefHeight="270.0" prefWidth="343.0" styleClass="background" />
+         <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="419.0" spacing="30.0">
+            <children>
+               <ImageView fitHeight="78.0" fitWidth="395.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../img/LYAN_DSMS.png" />
+                  </image>
+                  <VBox.margin>
+                     <Insets bottom="110.0" top="-90.0" />
+                  </VBox.margin>
+               </ImageView>
+               <HBox alignment="CENTER" spacing="10.0">
+                  <VBox.margin>
+                     <Insets top="-100.0" />
+                  </VBox.margin>
+               </HBox>
+               <HBox alignment="CENTER" layoutX="10.0" layoutY="209.0" spacing="50.0">
+                  <children>
+                     <Group fx:id="createCertificateGroup">
+                        <children>
+                           <Button alignment="BOTTOM_CENTER" layoutY="1.0" mnemonicParsing="false" prefHeight="118.0" prefWidth="141.0" styleClass="loginButton" text="CREATE CERTIFICATE" />
+                           <ImageView fitHeight="86.0" fitWidth="70.0" focusTraversable="true" layoutX="36.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../img/certificate.png" />
+                              </image>
+                           </ImageView>
+                        </children>
+                     </Group>
+                     <Group fx:id="importCertificateGroup" layoutX="112.0" layoutY="10.0">
+                        <children>
+                           <Button alignment="BOTTOM_CENTER" layoutY="1.0" mnemonicParsing="false" prefHeight="116.0" prefWidth="136.0" styleClass="loginButton" text="IMPORT CERTIFICATE" />
+                           <ImageView fitHeight="87.0" fitWidth="93.0" focusTraversable="true" layoutX="25.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../img/import.png" />
+                              </image>
+                           </ImageView>
+                        </children>
+                     </Group>
+                  </children>
+               </HBox>
+            </children>
+         </VBox>
+      </children>
+   </Group>
+</AnchorPane>

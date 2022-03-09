@@ -7,7 +7,7 @@ import it.castelli.lyan.User;
 
 import java.io.File;
 
-public class ApplicationMain {
+public class TestMain {
 
     public static void main(String[] args) {
         try {

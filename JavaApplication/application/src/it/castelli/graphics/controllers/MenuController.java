@@ -1,10 +1,9 @@
 package it.castelli.graphics.controllers;
 
 
-import it.castelli.Paths;
 import it.castelli.graphics.AlertUtil;
-import it.castelli.graphics.PrimaryStage;
-import it.castelli.graphics.Signature;
+import it.castelli.graphics.applications.CertificateApplication;
+import it.castelli.graphics.applications.MainApplication;
 import it.castelli.lyan.SignedFile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,10 +36,10 @@ public class MenuController implements Initializable {
             fileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("user Files", "*.sig.lyan")
             );
-            File selectedFile = fileChooser.showOpenDialog(PrimaryStage.secondStage);
+            File selectedFile = fileChooser.showOpenDialog(MainApplication.secondaryStage);
             try {
-                SignedFile signedFile = SignedFile.fromFile(selectedFile, PrimaryStage.currentUser);
-                AlertUtil.showInformationAlert("Signature validation", "Valid signature", "File signed by: " + signedFile.getSignatory());
+                SignedFile signedFile = SignedFile.fromFile(selectedFile, MainApplication.currentUser);
+                AlertUtil.showInformationAlert("CertificateApplication validation", "Valid signature", "File signed by: " + signedFile.getSignatory());
                 //TODO: button to download file
                 signedFile.saveSourceFile();
             }
@@ -49,9 +48,9 @@ public class MenuController implements Initializable {
             }
         });
         signatureFileButton.setOnMouseClicked(event -> {
-            Signature temp = new Signature();
+            CertificateApplication temp = new CertificateApplication();
             try {
-                temp.start(PrimaryStage.primaryStage);
+                temp.start(MainApplication.primaryStage);
             }
             catch (Exception e) {
                 e.printStackTrace();

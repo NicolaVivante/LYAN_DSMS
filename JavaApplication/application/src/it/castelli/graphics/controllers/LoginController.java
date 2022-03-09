@@ -2,9 +2,9 @@ package it.castelli.graphics.controllers;
 
 
 import it.castelli.graphics.AlertUtil;
-import it.castelli.graphics.Menu;
-import it.castelli.graphics.PrimaryStage;
-import it.castelli.graphics.Register;
+import it.castelli.graphics.applications.MenuApplication;
+import it.castelli.graphics.applications.MainApplication;
+import it.castelli.graphics.applications.RegisterApplication;
 import it.castelli.lyan.User;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,7 +37,7 @@ public class LoginController implements Initializable {
             fileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("user Files", "*.user.lyan")
             );
-            File selectedFile = fileChooser.showOpenDialog(PrimaryStage.secondStage);
+            File selectedFile = fileChooser.showOpenDialog(MainApplication.secondaryStage);
 
             boolean continuePassword = false;
             do {
@@ -46,15 +46,9 @@ public class LoginController implements Initializable {
                             "The file is not accessible if not through a password");
                     if (result.isPresent()) {
                         password = result.get();
-                        PrimaryStage.currentUser = User.fromFile(selectedFile, password);
-                        Menu temp = new Menu();
-                        PrimaryStage.secondStage.close();
-                        try {
-                            temp.start(PrimaryStage.primaryStage);
-                        }
-                        catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        MainApplication.currentUser = User.fromFile(selectedFile, password);
+                        MainApplication.secondaryStage.close();
+                        new MenuApplication().start(MainApplication.primaryStage);
                     } else continuePassword = false;
                 }
                 catch (Exception e) {
@@ -65,22 +59,10 @@ public class LoginController implements Initializable {
 
         });
         newUserButton.setOnMouseClicked(event -> {
-            Register temp = new Register();
-            try {
-                temp.start(PrimaryStage.secondStage);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+                new RegisterApplication().start(MainApplication.secondaryStage);
         });
         enterServer.setOnMouseClicked(event -> {
-            Menu temp = new Menu();
-            try {
-                temp.start(PrimaryStage.primaryStage);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+                new MenuApplication().start(MainApplication.primaryStage);
         });
 
     }
