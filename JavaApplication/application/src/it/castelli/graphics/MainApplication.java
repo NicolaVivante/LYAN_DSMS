@@ -25,6 +25,8 @@ public class MainApplication extends Application {
     }
 
     private void initFolders() {
+        File mainDir = new File(Paths.MAIN_DIR);
+        mainDir.mkdir();
         File usersDir = new File(Paths.USERS_PATH);
         usersDir.mkdir();
         File certificatesDir = new File(Paths.CERTIFICATES_PATH);
