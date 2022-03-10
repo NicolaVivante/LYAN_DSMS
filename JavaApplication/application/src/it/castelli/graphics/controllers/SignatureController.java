@@ -55,7 +55,12 @@ public class SignatureController implements Initializable {
 
             FileChooser fileChooser = new FileChooser();
             selectedFile = fileChooser.showOpenDialog(MainApplication.secondaryStage);
-            backgroundChooseFile.getStyleClass().add("presentFile");
+            if (selectedFile != null) {
+                backgroundChooseFile.getStyleClass().add("presentFile");
+            } else {
+                backgroundChooseFile.getStyleClass().remove("presentFile");
+                backgroundChooseFile.getStyleClass().add("loginButton");
+            }
         });
 
         importCertificateGroup.setOnMouseClicked(event -> {
@@ -66,7 +71,12 @@ public class SignatureController implements Initializable {
             );
             try {
                 certificateFile = fileChooser.showOpenDialog(MainApplication.secondaryStage);
-                backgroundImportCertificate.getStyleClass().add("presentFile");
+                if (certificateFile != null) {
+                    backgroundImportCertificate.getStyleClass().add("presentFile");
+                } else {
+                    backgroundImportCertificate.getStyleClass().remove("presentFile");
+                    backgroundImportCertificate.getStyleClass().add("loginButton");
+                }
             } catch (Exception e) {
                 AlertUtil.showErrorAlert("Error", "An error occurred", e.getMessage());
             }

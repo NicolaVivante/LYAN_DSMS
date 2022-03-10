@@ -1,6 +1,11 @@
 .background {
     -fx-background-color: #1e2953;
 }
+.textFieldRegister{
+-fx-background-color: #ffffff;
+    -fx-text-fill: #82c6ff;
+    -fx-prompt-text-fill: #82c6ff;
+}
 .loginButton {
     -fx-background-color: #82c6ff;
     -fx-text-fill: #ffffff;

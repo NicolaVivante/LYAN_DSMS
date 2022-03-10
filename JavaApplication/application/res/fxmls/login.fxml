@@ -3,15 +3,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.castelli.graphics.controllers.LoginController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.castelli.graphics.controllers.LoginController">
    <ImageView fitHeight="402.0" fitWidth="600.0" pickOnBounds="true">
       <image>
          <Image url="@../img/background.jpg" />
@@ -19,10 +17,10 @@
    </ImageView>
    <Group layoutX="92.0" layoutY="2.0">
       <children>
-         <Button alignment="CENTER" contentDisplay="CENTER" layoutX="70.0" layoutY="170.0" mnemonicParsing="false" opacity="0.91" prefHeight="204.0" prefWidth="279.0" styleClass="background" />
+         <Button alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="130.0" mnemonicParsing="false" opacity="0.91" prefHeight="247.0" prefWidth="380.0" styleClass="background" />
          <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="419.0" spacing="30.0">
             <children>
-               <ImageView fitHeight="78.0" fitWidth="395.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="65.0" fitWidth="245.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@../img/LYAN_DSMS.png" />
                   </image>
@@ -31,19 +29,19 @@
                   </VBox.margin>
                </ImageView>
                <HBox alignment="CENTER" prefHeight="74.0" prefWidth="419.0">
-                  <children>
-                     <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="8.0" prefWidth="418.0" text="Digital Signature Management System" textFill="#82c6ff">
-                        <HBox.margin>
-                           <Insets top="20.0" />
-                        </HBox.margin>
-                        <font>
-                           <Font name="System Bold Italic" size="21.0" />
-                        </font>
-                     </Label>
-                  </children>
                   <VBox.margin>
-                     <Insets bottom="120.0" />
+                     <Insets bottom="80.0" top="30.0" />
                   </VBox.margin>
+                  <children>
+                     <ImageView fitHeight="42.0" fitWidth="368.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../img/DigitalSignatureManagementSystem.png" />
+                        </image>
+                        <HBox.margin>
+                           <Insets />
+                        </HBox.margin>
+                     </ImageView>
+                  </children>
                </HBox>
                <HBox alignment="CENTER" spacing="50.0">
                   <children>
