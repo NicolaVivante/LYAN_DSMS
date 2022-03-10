@@ -6,5 +6,5 @@ public class Paths {
     public static final String SIGNED_FILES_PATH = "./res/saves/signedFiles/";
     public static final String EXTRACTED_FILES_PATH = "./res/saves/extractedFiles/";
     public static final String KEYS_PATH = "./res/saves/";
-	public static final String MAIN_DIR = "./res/saves/";
+	public static final String MAIN_DIR_PATH = "./res/saves/";
 }
